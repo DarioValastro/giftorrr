@@ -2,9 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Home</title>
+    <style>
+        body{
+            background-color: red;
+        }
+
+        header {
+          margin: auto;
+          width: 50%;
+          padding: 1%;
+          font-size: 205%;
+          font-family: "Brush Script MT", fantasy;
+        }
+
+        ul {
+          list-style-type: none;
+          margin: 1%;
+          padding: 1%;
+          overflow: hidden;
+          background-color: red;
+        }
+
+        li {
+          float: left;
+        }
+
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 2%;
+          text-decoration: none;
+        }
+
+        li a:hover {
+          background-color: whitesmoke;
+        }
+    </style>
 </head>
+<!-- Navigation Bar -->
+   <header>
+       <h1 style="text-align: center; color: whitesmoke;font-size: 300%;">Giftor</h1>
+            <ul>
+              <li><a href="{{ url_for('contact_Us') }}">Contact us</a></li>
+              <li><a href="{{ url_for('home') }}">Home</a></li>
+              <li><a href="{{ url_for('about_Us') }}">About us</a></li>
+            </ul>
+    </header>
 <body>
 
+
+
+Hello
 </body>
 </html>
