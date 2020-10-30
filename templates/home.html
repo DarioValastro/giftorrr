@@ -43,6 +43,19 @@
         li a:hover {
           background-color: whitesmoke;
         }
+
+        .button {
+          background-color: whitesmoke;
+          border: none;
+          color: red;
+          padding: 2%;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 100%;
+          margin: 2%;
+          cursor: pointer;
+        }
     </style>
 </head>
 <!-- Navigation Bar -->
@@ -55,9 +68,8 @@
             </ul>
     </header>
 <body>
+You should do a gift and you haven't idea.. Try our test to find the perfect gift
+<a href="{{ url_for('test') }}" class="button">START</a>
 
-
-
-Hello
 </body>
 </html>
