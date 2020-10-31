@@ -1,10 +1,12 @@
 import os
 
+import mysql.connector
+
 from flask import Flask, render_template
 from flask_wtf import FlaskForm  # FORM
 from wtforms import RadioField, SubmitField  # FIELD USED
 from wtforms.validators import DataRequired
-from flask_sqlalchemy import SQLAlchemy
+
 
 # CONFIG APP
 app = Flask(__name__)
@@ -14,11 +16,24 @@ app.debug = True
 
 """
 Non so i cosa inserire in app.config['SQLALCHEMY_DATABASE_URI']
-"""
+
 #DB
 #app.config['SQLALCHEMY_DATABASE_URI'] =\'mysql://localhost:admin@127.0.0.1/db' + os.path.join(basedir, 'data.sqlite') # set the path for the database
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True # set to True to enable automatic commits of database changes at the end of each request.
 #######################
+"""
+
+#prova a vedere se cosi lo collega
+
+mydb = mysql.connector.connect(
+    host= "127.0.0.1",
+    user = "root",
+    password = "IS_project", #non so che password hai messo i dati qua sono riferiti al mio DB
+    database= "Choose_gift", #è il nome del DB
+)
+
+my_cursor = mydb.cursor()
+
 
 
 
