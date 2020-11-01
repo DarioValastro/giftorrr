@@ -11,6 +11,26 @@
     </style>
 </head>
 <body>
+    <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}" method = "post">
     <h1>{{ questions[counterQuestion] }}</h1>
+    {{ form.csrf }}
+    {{ form.hidden_tag() }}
+
+    <table>
+        <tr>
+        {% for a in answers %}
+            <td>{{ a }}</td>
+        {% endfor %}
+        </tr>
+        <tr>
+        {% for formField in form.answer %}
+            <td>{{ formField }}</td>
+        {% endfor %}
+        </tr>
+    </table>
+        <submit>
+            <a href="{{ url_for('testt',idQuestion=counterQuestion) }}" class="button">{{ form.submit }}</a>
+        </submit>
+    </form>
 </body>
 </html>

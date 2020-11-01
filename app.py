@@ -1,20 +1,15 @@
-import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_wtf import FlaskForm  # FORM
-from wtforms import RadioField, SubmitField  # FIELD USED
+from wtforms import RadioField, SubmitField, Field  # FIELD USED
 from wtforms.validators import DataRequired
 
 # CONFIG APP
-from model import Question
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.debug = True
-#######################
 
-
-# DB
+# CONFIG DB
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path for the database, ho installato dal terminal pymysql per farlo funzionare
 app.config[
@@ -24,8 +19,25 @@ app.config[
 db = SQLAlchemy(app)
 
 
+# FORMS
+class AnswerForm(FlaskForm):
+    submit = SubmitField('Submit')
+
+    # TO DO: legare le possibilità di scelta alla quantità di risposte della domanda
+    # un modo per farlo potrebbe essere creare più tipi di classi AnswerForm in base al numero di domande
+    if n==3:
+        answer = RadioField('Answer', choices=['1', '2', '3'],
+                            validators=[DataRequired()])
+    else:
+        answer = RadioField('Answer', choices=['1','2','3','4','5','6','7'],
+                            validators=[DataRequired()])
+
+
+
+
+
 class Questions(db.Model):
-    # __tablename__ = "questions"
+    __tablename__ = "questions"
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
     textQuestion = db.Column(db.String)
 
@@ -36,12 +48,11 @@ class Questions(db.Model):
         return '<Question %r>' % self.textQuestion
 
 
-# FORMS
-class AnswerForm(FlaskForm):
-    answer = gender = RadioField('Gender', choices=['Male', 'Female', 'Neutrer'],
-                                 validators=[DataRequired()])  # choiches from db
-    submit = SubmitField('Submit')
-#######################
+class Answers(db.Model):
+    __tablename__ = "answers"
+    idAnswer = db.Column('idAnswer', db.Integer, primary_key=True)
+    idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)  # Non sono sicuro sul primary key
+    textAnswer = db.Column('textAnswer', db.String)
 
 
 @app.route('/')
@@ -58,6 +69,34 @@ def contact_Us():
 @app.route('/aboutUs/')
 def about_Us():
     return render_template('aboutUs.html')
+
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    try:
+        count = 0
+        # Questions
+        questions = Questions.query.distinct()
+        resQuestions = []
+        for q in questions:
+            resQuestions.append(q.textQuestion)
+
+        # Answers
+        answers = Answers.query.filter(Answers.idQuestion == count + 1)
+        resAnswers = []
+        choiches = []
+        for a in answers:
+            resAnswers.append(a.textAnswer)
+
+        form = AnswerForm(request.form)
+
+        return render_template('test.html', questions=resQuestions, counterQuestion=count, answers=resAnswers,
+                               form=form)
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
 
 
 '''
@@ -78,17 +117,33 @@ def test():
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
         '''
-    # return render_template('test.html')
 
-@app.route('/test')
-def test():
-    questions = Questions.query.distinct()
-    counterQuestion=0
-    res=[]
-    for q in questions:
-        res.append(q.textQuestion)
-    return render_template('test.html', questions=res,counterQuestion=counterQuestion)
 
+@app.route('/testt/<idQuestion>', methods=['GET', 'POST'])
+def testt(idQuestion):
+    try:
+        count = int(idQuestion) + 1
+
+        # Questions
+        questions = Questions.query.distinct()
+        resQuestions = []
+        for q in questions:
+            resQuestions.append(q.textQuestion)
+
+        # Answers
+        answers = Answers.query.filter(Answers.idQuestion == count + 1)
+        resAnswers = []
+        choiches = []
+        for a in answers:
+            resAnswers.append(a.textAnswer)
+        form = AnswerForm(request.form)
+        return render_template('test.html', questions=resQuestions, counterQuestion=count, answers=resAnswers,
+                               form=form)
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
 
 
 if __name__ == '__main__':
