@@ -4,23 +4,15 @@ class Answer:
         self.idQuestion=idQuestion
         self.textAnswer=textAnswer
 
-    def getText(self):
+    def getTextAnswer(self):
         return self.textAnswer
 
-    def getIDanswer(self):
+    def getIdAnswer(self):
         return self.idAnswer
 
-    def getIDquestion(self):
+    def getIdQuestion(self):
         return self.idQuestion
 
-    def setText(self, text):
-        self.textAnswer = text
-        return self.textAnswer
 
-    def setIDanswer(self, id_a):
-        self.idAnswer = id_a
-        return self.idAnswer
 
-    def setIDquestion(self, id_q):
-        self.idQuestion = id_q
-        return self.idQuestion
+

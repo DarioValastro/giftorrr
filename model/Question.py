@@ -1,4 +1,10 @@
-class Question:
+'''from app import db
+
+class Question(db.Model):
+    idQuestion = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    textQuestion = db.Column(db.TEXT)
+
+
     def __init__(self,idQuestion, textQuestion):
         self.idQuestion=idQuestion
         self.textQuestion=textQuestion
@@ -9,11 +15,4 @@ class Question:
     def getIDquestion(self):
         return self.idQuestion
 
-    def setText(self, text):
-        self.textQuestion = text
-        return self.textQuestion
-
-    def setIDquestion(self, id):
-        self.idQuestion = id
-        return self.idQuestion
-
+'''
