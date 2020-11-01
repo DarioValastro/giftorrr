@@ -6,16 +6,38 @@
     <title>Test</title>
     <style>
         body{
+            background-color: whitesmoke;
+        }
+
+        .card {
             background-color: red;
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          transition: 0.3s;
+          width: 40%;
+            margin: 3% 15% 15% 15%;
+            padding: 15%;
+            text-align: center;
+            border-radius: 5% 5% 5% 5%;
+        }
+
+
+        .try{
+            background-color: whitesmoke;
+             display: inline-block;
+            width: 100%;
+            margin: 2%;
+            cursor: pointer;
+            border-radius: 5% 5% 5% 5%;
         }
     </style>
 </head>
 <body>
+<div class="card">
+
     <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}" method = "post">
     <h1>{{ questions[counterQuestion] }}</h1>
     {{ form.csrf }}
     {{ form.hidden_tag() }}
-
     <table>
         <tr>
         {% for a in answers %}
@@ -29,8 +51,9 @@
         </tr>
     </table>
         <submit>
-            <a href="{{ url_for('testt',idQuestion=counterQuestion) }}" class="button">{{ form.submit }}</a>
+            <a href="{{ url_for('testt',idQuestion=counterQuestion) }}" class="button">{{ form.submit(class='try') }}</a>
         </submit>
     </form>
+</div>
 </body>
 </html>
