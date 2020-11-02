@@ -21,7 +21,7 @@
         }
 
 
-        .try{
+        .buttonSubmit{
             background-color: whitesmoke;
              display: inline-block;
             width: 100%;
@@ -34,24 +34,24 @@
 <body>
 <div class="card">
 
-    <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}" method = "post">
+    <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}/{{ path }}" method = "post">
     <h1>{{ questions[counterQuestion] }}</h1>
     {{ form.csrf }}
     {{ form.hidden_tag() }}
+
     <table>
         <tr>
         {% for a in answers %}
             <td>{{ a }}</td>
+            <td><input type="radio" id="{{ a }}" value="{{ a }}" name ="answer"></td>
         {% endfor %}
+        {{ form.answer }}
         </tr>
         <tr>
-        {% for formField in form.answer %}
-            <td>{{ formField }}</td>
-        {% endfor %}
         </tr>
     </table>
         <submit>
-            <a href="{{ url_for('testt',idQuestion=counterQuestion) }}" class="button">{{ form.submit(class='try') }}</a>
+            <a href="{{ url_for('testt',idQuestion=counterQuestion,path=path) }}" class="button">{{ form.submit(class='buttonSubmit') }}</a>
         </submit>
     </form>
 </div>

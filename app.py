@@ -42,9 +42,10 @@ class AnswerForm10(FlaskForm):
     submit = SubmitField('Submit')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                         validators=[DataRequired()])
+################################################################################################
 
 
-#CLASS DB
+# CLASS DB
 class Questions(db.Model):
     __tablename__ = "questions"
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
@@ -62,53 +63,10 @@ class Answers(db.Model):
     idAnswer = db.Column('idAnswer', db.Integer, primary_key=True)
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)  # Non sono sicuro sul primary key
     textAnswer = db.Column('textAnswer', db.String)
+###########################################################################################################
 
 
-@app.route('/')
-@app.route('/home/')
-def home():
-    return render_template('home.html')
-
-
-@app.route('/contactUs/')
-def contact_Us():
-    return render_template('contactUs.html')
-
-
-@app.route('/aboutUs/')
-def about_Us():
-    return render_template('aboutUs.html')
-
-
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-    try:
-        count = 0
-        # Questions
-        questions = getQuestionsFromDB()
-
-        # Answers
-        answers = getAswersFromDB(count)
-
-        form = None
-        if len(answers) == 3:
-            form = AnswerForm3(request.form)
-        elif len(answers) == 5:
-            form = AnswerForm5(request.form)
-        elif len(answers) == 6:
-            form = AnswerForm6(request.form)
-        elif len(answers) == 10:
-            form = AnswerForm10(request.form)
-
-        return render_template('test.html', questions=questions, counterQuestion=count, answers=answers,
-                               form=form)
-    except Exception as e:
-        # e holds description of the error
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
-
-
+# FUNCTIONS
 def getQuestionsFromDB():
     questions = Questions.query.distinct()
     resQuestions = []
@@ -125,27 +83,76 @@ def getAswersFromDB(count):
     return resAnswers
 
 
-@app.route('/testt/<idQuestion>', methods=['GET', 'POST'])
-def testt(idQuestion):
+def getFormBasedOnLength(len):
+    if len == 3:
+        return AnswerForm3(request.form)
+    elif len == 5:
+        return AnswerForm5(request.form)
+    elif len == 6:
+        return AnswerForm6(request.form)
+    elif len == 10:
+        return AnswerForm10(request.form)
+##############################################################################
+
+#ROUTE
+@app.route('/')
+@app.route('/home/')
+def home():
+    return render_template('home.html')
+
+
+@app.route('/contactUs/')
+def contact_Us():
+    return render_template('contactUs.html')
+
+
+@app.route('/aboutUs/')
+def about_Us():
+    return render_template('aboutUs.html')
+
+
+# PRIMA ROUTE DOMANDE
+@app.route('/test', methods=['GET', 'POST'])
+def test():
     try:
-        count = int(idQuestion) + 1
-        #path="Q"+idQuestion+":"+testPath+"-"
+        count = 0
+        path = 'Start'
         # Questions
         questions = getQuestionsFromDB()
 
         # Answers
         answers = getAswersFromDB(count)
-        form = None
-        if len(answers) == 3:
-            form = AnswerForm3(request.form)
-        elif len(answers) == 5:
-            form = AnswerForm5(request.form)
-        elif len(answers) == 6:
-            form = AnswerForm6(request.form)
-        elif len(answers) == 10:
-            form = AnswerForm10(request.form)
+
+        # form
+        form = getFormBasedOnLength(len(answers))
+
         return render_template('test.html', questions=questions, counterQuestion=count, answers=answers,
-                               form=form)
+                               form=form, path=path)
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+
+
+# ALTRE ROUTE DOMANDE
+@app.route('/testt/<idQuestion>/<path>', methods=['GET', 'POST'])
+def testt(idQuestion=None, path=None):
+    try:
+        count = int(idQuestion) + 1
+        path = path + "Q" + str(count) + ":A" + str(path) + "-"
+
+        # Questions
+        questions = getQuestionsFromDB()
+
+        # Answers
+        answers = getAswersFromDB(count)
+
+        # form
+        form = getFormBasedOnLength(len(answers))
+
+        return render_template('test.html', questions=questions, counterQuestion=count, answers=answers,
+                               form=form, path=path)
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
