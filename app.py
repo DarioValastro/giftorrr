@@ -140,7 +140,7 @@ def test():
 def testt(idQuestion=None, path=None):
     try:
         count = int(idQuestion) + 1
-        path = path + "Q" + str(count) + ":A" + str(path) + "-"
+
 
         # Questions
         questions = getQuestionsFromDB()
@@ -151,6 +151,8 @@ def testt(idQuestion=None, path=None):
         # form
         form = getFormBasedOnLength(len(answers))
 
+        #print(form.answer.data)
+        path = path + "Q" + str(count) + ":A" + str(form.answer.data) + "--"
         return render_template('test.html', questions=questions, counterQuestion=count, answers=answers,
                                form=form, path=path)
     except Exception as e:
