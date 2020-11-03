@@ -1,3 +1,4 @@
+import urllib
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, redirect
 from flask_wtf import FlaskForm  # FORM
@@ -10,13 +11,16 @@ app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.debug = True
 
 # CONFIG DB
-app.config[
-    'SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path for the database, ho installato dal terminal pymysql per farlo funzionare
+params = urllib.parse.quote_plus('Driver={SQL Server};Server=tcp:giftor.database.windows.net,1433;Database=giftor;Uid=amministratore;Pwd=9RLxFv1t3IVbRoJL;Encrypt=yes;')
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
+
+
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path for the database, ho installato dal terminal pymysql per farlo funzionare
 app.config[
     'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True  # set to True to enable automatic commits of database changes at the end of each request.
 app.config[
     'SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # per evitare l'errore esplicitato in questo link: https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) # create DB
 
 
 # FORMS
@@ -61,7 +65,7 @@ class Questions(db.Model):
 class Answers(db.Model):
     __tablename__ = "answers"
     idAnswer = db.Column('idAnswer', db.Integer, primary_key=True)
-    idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)  # Non sono sicuro sul primary key
+    idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
     textAnswer = db.Column('textAnswer', db.String)
 ###########################################################################################################
 
@@ -140,7 +144,6 @@ def test():
 def testt(idQuestion=None, path=None):
     try:
         count = int(idQuestion) + 1
-
 
         # Questions
         questions = getQuestionsFromDB()

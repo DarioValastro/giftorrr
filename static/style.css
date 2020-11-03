@@ -1,0 +1,49 @@
+body{
+            background-color: red;
+        }
+
+        header {
+          margin: auto;
+          width: 50%;
+          padding: 1%;
+          font-size: 205%;
+          font-family: "Brush Script MT", fantasy;
+        }
+
+        ul {
+          list-style-type: none;
+          margin: 1%;
+          padding: 1%;
+          overflow: hidden;
+          background-color: red;
+        }
+
+        li {
+          float: left;
+        }
+
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 2%;
+          text-decoration: none;
+        }
+
+        li a:hover {
+          background-color: whitesmoke;
+        }
+
+        .button {
+          background-color: whitesmoke;
+          border: none;
+          color: red;
+          padding: 2%;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 100%;
+          margin: 2%;
+          cursor: pointer;
+            border-radius: 5% 5% 5% 5%;
+        }
