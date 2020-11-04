@@ -1,26 +1,36 @@
 import urllib
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request
 from flask_wtf import FlaskForm  # FORM
-from wtforms import RadioField, SubmitField, Field  # FIELD USED
+from wtforms import RadioField, SubmitField  # FIELD USED
 from wtforms.validators import DataRequired
+from model.Answer import Answer
+from model.Game import Game
+from model.Gift import Gift
+from model.Question import Question
+from model.Score import Scoree
 
 # CONFIG APP
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.debug = True
 
 # CONFIG DB
-params = urllib.parse.quote_plus('Driver={SQL Server};Server=tcp:giftor.database.windows.net,1433;Database=giftor;Uid=amministratore;Pwd=9RLxFv1t3IVbRoJL;Encrypt=yes;')
+params = urllib.parse.quote_plus(
+    'Driver={SQL Server};Server=tcp:giftor.database.windows.net,'
+    '1433;Database=giftor;Uid=amministratore;Pwd=9RLxFv1t3IVbRoJL;Encrypt=yes;')
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
 
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path for the database, ho installato dal terminal pymysql per farlo funzionare
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path for the database, ho installato dal terminal pymysql per farlo funzionare
 app.config[
-    'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True  # set to True to enable automatic commits of database changes at the end of each request.
+    'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True  # set to True to enable automatic commits of database changes at the end
+# of each request.
 app.config[
-    'SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # per evitare l'errore esplicitato in questo link: https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications
-db = SQLAlchemy(app) # create DB
+    'SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # per evitare l'errore esplicitato in questo link:
+# https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications
+db = SQLAlchemy(app)  # create DB
 
 
 # FORMS
@@ -46,12 +56,13 @@ class AnswerForm10(FlaskForm):
     submit = SubmitField('Submit')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                         validators=[DataRequired()])
+
+
 ################################################################################################
 
 
 # CLASS DB
 class Questions(db.Model):
-    __tablename__ = "questions"
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
     textQuestion = db.Column(db.String)
 
@@ -63,28 +74,73 @@ class Questions(db.Model):
 
 
 class Answers(db.Model):
-    __tablename__ = "answers"
     idAnswer = db.Column('idAnswer', db.Integer, primary_key=True)
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
     textAnswer = db.Column('textAnswer', db.String)
+
+
+class Gifts(db.Model):
+    idGift = db.Column('idGift', db.Integer, primary_key=True)
+    textGift = db.Column('textGift', db.String)
+    link = db.Column('link', db.String)
+    pic = db.Column('pic', db.String)
+    sustainable = db.Column('sustainable', db.Integer)
+    priceUL = db.Column('priceUL', db.Integer)
+    priceLL = db.Column('priceLL', db.Integer)
+
+
+class Score(db.Model):
+    idGift = db.Column('idGift', db.Integer, primary_key=True)
+    idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
+    idAnswer = db.Column('idAnswer', db.Integer, primary_key=True)
+    point = db.Column('point', db.Integer)
+
+
 ###########################################################################################################
 
 
 # FUNCTIONS
+
 def getQuestionsFromDB():
     questions = Questions.query.distinct()
     resQuestions = []
     for q in questions:
-        resQuestions.append(q.textQuestion)
+        resQuestions.append(Question(idQuestion=q.idQuestion, textQuestion=q.textQuestion))
     return resQuestions
+
+
+'''
+def getQuestionFromDB(count):
+    q = Questions.query.filter(Questions.idQuestion == count + 1).first()
+    resQ = Question(idQuestion=q.idQuestion, textQuestion=q.textQuestion)
+    return resQ
+'''
 
 
 def getAswersFromDB(count):
     answers = Answers.query.filter(Answers.idQuestion == count + 1)
     resAnswers = []
     for a in answers:
-        resAnswers.append(a.textAnswer)
+        resAnswers.append(Answer(idAnswer=a.idAnswer, idQuestion=count + 1, textAnswer=a.textAnswer))
     return resAnswers
+
+
+def getGiftsFromDB():
+    gifts = Gifts.query.distinct()
+    resGifts = []
+    for g in gifts:
+        resGifts.append(Gift(idGift=g.idGift, name=g.textGift, sustainability=g.sustainable, url=g.link, pic=g.pic,
+                             priceUL=g.priceUL, priceLL=g.priceLL))
+    return resGifts
+
+
+def getPointsFromDB(idAnswer, idQuestion):
+    score = Score.query.filter((Score.idAnswer == idAnswer) & (Score.idQuestion == idQuestion))
+    resScore = []
+    for s in score:
+        # print(s.idGift,s.idAnswer,s.idQuestion,s.point)
+        resScore.append(Scoree(idGift=s.idGift, idQuestion=s.idQuestion, idAnswer=s.idAnswer, value=s.point))
+    return resScore
 
 
 def getFormBasedOnLength(len):
@@ -96,9 +152,9 @@ def getFormBasedOnLength(len):
         return AnswerForm6(request.form)
     elif len == 10:
         return AnswerForm10(request.form)
-##############################################################################
 
-#ROUTE
+
+# ROUTE
 @app.route('/')
 @app.route('/home/')
 def home():
@@ -115,22 +171,32 @@ def about_Us():
     return render_template('aboutUs.html')
 
 
+# CONFIG GAME
+count = 0
+path = 'Start'
+
+# Questions
+questions = getQuestionsFromDB()
+gifts = getGiftsFromDB()
+
+game = Game(questions, gifts)
+game.initializeGiftsScore()
+
+
+######
+
+
 # PRIMA ROUTE DOMANDE
 @app.route('/test', methods=['GET', 'POST'])
 def test():
     try:
-        count = 0
-        path = 'Start'
-        # Questions
-        questions = getQuestionsFromDB()
-
         # Answers
         answers = getAswersFromDB(count)
 
         # form
         form = getFormBasedOnLength(len(answers))
 
-        return render_template('test.html', questions=questions, counterQuestion=count, answers=answers,
+        return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
                                form=form, path=path)
     except Exception as e:
         # e holds description of the error
@@ -140,13 +206,12 @@ def test():
 
 
 # ALTRE ROUTE DOMANDE
+
+
 @app.route('/testt/<idQuestion>/<path>', methods=['GET', 'POST'])
 def testt(idQuestion=None, path=None):
     try:
         count = int(idQuestion) + 1
-
-        # Questions
-        questions = getQuestionsFromDB()
 
         # Answers
         answers = getAswersFromDB(count)
@@ -154,9 +219,13 @@ def testt(idQuestion=None, path=None):
         # form
         form = getFormBasedOnLength(len(answers))
 
-        #print(form.answer.data)
+        # add point to gifts
+        score = getPointsFromDB(form.answer.data, count)
+        game.addPoint(score=score)
+
+        # print(form.answer.data)
         path = path + "Q" + str(count) + ":A" + str(form.answer.data) + "--"
-        return render_template('test.html', questions=questions, counterQuestion=count, answers=answers,
+        return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
                                form=form, path=path)
     except Exception as e:
         # e holds description of the error

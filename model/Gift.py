@@ -8,7 +8,7 @@ class Gift:
         self.priceUL = priceUL
         self.priceLL = priceLL
 
-    def getIDgift(self):
+    def getIdGift(self):
         return self.idGift
 
     def getName(self):
@@ -29,6 +29,8 @@ class Gift:
     def getPriceLL(self):
         return self.priceLL
 
+    def toString(self):
+        return "Il regalo con id: " + str(self.idGift) + " e nome: " + self.name
 #serve solo se dalla pagine web vogliamo modificare il DB (Dando la possibilità di aggiungere un regalo)
 
     def setIDgift(self,id_gift):

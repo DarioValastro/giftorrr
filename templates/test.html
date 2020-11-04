@@ -35,15 +35,15 @@
 <div class="card">
 
     <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}/{{ path }}" method = "post">
-    <h1>{{ questions[counterQuestion] }}</h1>
+    <h1>{{ questions[counterQuestion].getTextQuestion() }}</h1>
     {{ form.csrf }}
     {{ form.hidden_tag() }}
 
     <table>
         <tr>
         {% for a in answers %}
-            <td>{{ a }}</td>
-            <td><input type="radio" id="{{ a }}" value="{{ a }}" name ="answer"></td>
+            <td>{{ a.getTextAnswer() }}</td>
+            <td><input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer"></td>
         {% endfor %}
         </tr>
         <tr>
