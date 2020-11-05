@@ -211,17 +211,23 @@ def test():
 @app.route('/testt/<idQuestion>/<path>', methods=['GET', 'POST'])
 def testt(idQuestion=None, path=None):
     try:
-        count = int(idQuestion) + 1
+        count = int(idQuestion) + 1 # contatore idQuestion
 
         # Answers
-        answers = getAswersFromDB(count)
+        answers = getAswersFromDB(count) # risposte alla domanda attuale
 
         # form
         form = getFormBasedOnLength(len(answers))
 
         # add point to gifts
         score = getPointsFromDB(form.answer.data, count)
-        game.addPoint(score=score)
+        if count == 3: # è la domanda sul prezzo
+            print('eeeeeeeeeeeeeeeeeeee')
+            print(form.answer.data)
+            game.deleteDueToPrice(form.answer.data)
+        else:
+            game.addPoint(score=score)
+
 
         # print(form.answer.data)
         path = path + "Q" + str(count) + ":A" + str(form.answer.data) + "--"
