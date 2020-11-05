@@ -16,6 +16,6 @@ class Game:
         for g in self.gifts:
             for s in score:
                 if s.getIdGift() == g.getIdGift():
-                    print("the value of gift " + str(s.getIdGift()) + " is " + str(s.getValue()))
+                    #print("the value of gift " + str(s.getIdGift()) + " is " + str(s.getValue()))
                     self.giftsScore[g.idGift] = s.getValue()
         print(self.giftsScore)
