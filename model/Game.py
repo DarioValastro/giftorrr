@@ -10,7 +10,7 @@ class Game:
     def initializeGiftsScore(self):
         for g in self.gifts:
             self.giftsScore[g.getIdGift()] = 0
-            print(g.getIdGift())
+
 
     def addPoint(self, score):
         for g in self.gifts:
