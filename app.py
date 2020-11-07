@@ -211,23 +211,26 @@ def test():
 @app.route('/testt/<idQuestion>/<path>', methods=['GET', 'POST'])
 def testt(idQuestion=None, path=None):
     try:
-        count = int(idQuestion) + 1 # contatore idQuestion
+        count = int(idQuestion) + 1  # contatore idQuestion
 
         # Answers
-        answers = getAswersFromDB(count) # risposte alla domanda attuale
+        print('siamo alla domandda',count)
+        answers = getAswersFromDB(count)  # risposte alla domanda attuale
 
         # form
         form = getFormBasedOnLength(len(answers))
 
         # add point to gifts
-        score = getPointsFromDB(form.answer.data, count)
-        if count == 3: # è la domanda sul prezzo
-            print('eeeeeeeeeeeeeeeeeeee')
-            print(form.answer.data)
-            game.deleteDueToPrice(form.answer.data)
+        idanswer = form.answer.data
+        score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
+        if count == 3:  # è la domanda sul prezzo
+            print('la risposta sul prezzo è la numero')
+            print(idanswer)
+            game.deleteDueToPrice(idAnswer=idanswer)
+        elif count == 6:  # è la domanda sulla Sostenibilità
+            game.addPointSustainable(idAnswer=idanswer, score=score)
         else:
             game.addPoint(score=score)
-
 
         # print(form.answer.data)
         path = path + "Q" + str(count) + ":A" + str(form.answer.data) + "--"
