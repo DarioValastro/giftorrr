@@ -75,14 +75,11 @@ class Game:
         for g in self.gifts:
             print(g.idGift, g.name)
 
-    # TO DO
-    '''    def addPointSustainable(self, idAnswer,score):
-        for g in self.gifts:
-            if g.getSustainability() == 1: # gift is sustainable
-                for s in score:
-                    if s.getIdGift() == g.getIdGift():
-                        self.giftsScore[g.idGift] = s.getValue() # aggiungo valore in base
-            else:
-                pass
-'''
+    def rank(self):
+        return sorted(self.giftsScore.items(), key=lambda x: x[1],reverse=True) # rank dictionary
+
+
+def addPointSustainable(self, idAnswer,score):
+       pass
+
 
