@@ -109,6 +109,17 @@ def getQuestionsFromDB():
     return resQuestions
 
 
+def finishQuestions(count):
+    if count == 4:
+        return True
+    else:
+        return False
+
+
+def sendPathToDB(path,countQuestion,idAnswer):
+    pathFinal = path + 'Q'+ str(countQuestion+1) + ':A' + str(idAnswer) + "--End"
+    print(pathFinal)
+
 '''
 def getQuestionFromDB(count):
     q = Questions.query.filter(Questions.idQuestion == count + 1).first()
@@ -181,8 +192,6 @@ gifts = getGiftsFromDB()
 
 game = Game(questions, gifts)
 game.initializeGiftsScore()
-
-
 ######
 
 
@@ -206,22 +215,12 @@ def test():
 
 
 # ALTRE ROUTE DOMANDE
-
-
-def finishquestions(count):
-    if count == 4:
-        return True
-    else:
-        return False
-
-
 @app.route('/testt/<idQuestion>/<path>', methods=['GET', 'POST'])
 def testt(idQuestion=None, path=None):
     try:
         count = int(idQuestion) + 1  # contatore idQuestion
 
         # Answers
-        print('siamo alla domandda', count)
         answers = getAswersFromDB(count)  # risposte alla domanda attuale
 
         # form
@@ -231,8 +230,6 @@ def testt(idQuestion=None, path=None):
         idanswer = form.answer.data
         score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
         if count == 3:  # è la domanda sul prezzo
-            print('la risposta sul prezzo è la numero')
-            print(idanswer)
             game.deleteDueToPrice(idAnswer=idanswer)
         elif count == 6:  # è la domanda sulla Sostenibilità
             game.addPointSustainable(idAnswer=idanswer, score=score)
@@ -240,11 +237,13 @@ def testt(idQuestion=None, path=None):
             game.addPoint(score=score)
 
         # print(form.answer.data)
-        path = path + "Q" + str(count) + ":A" + str(form.answer.data) + "--"
+        path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
-        if finishquestions(count):
-            return render_template('result.html', rank=game.rank())
+        if finishQuestions(count):
+            sendPathToDB(path,count,form.answer.data)
+            return render_template('result.html', rank=game.rank(),fisrt_position=game.firstPosition(),second_position=game.secondPosition(), third_position=game.thirdPosition())
         else:
+
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
                                    form=form, path=path)
     except Exception as e:

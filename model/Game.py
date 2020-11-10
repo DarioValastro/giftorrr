@@ -3,6 +3,7 @@ class Game:
         self.questions = questions
         self.giftsScore = {}  # to memorize score
         self.gifts = gifts
+        self.giftNames = {}
 
     def getQuestions(self):
         return self.questions
@@ -10,6 +11,8 @@ class Game:
     def initializeGiftsScore(self):
         for g in self.gifts:
             self.giftsScore[g.getIdGift()] = 0
+            print(g.idGift,str(g.name))
+            self.giftNames[g.idGift] = str(g.name)
 
     def addPoint(self, score):
         for g in self.gifts:
@@ -76,10 +79,20 @@ class Game:
             print(g.idGift, g.name)
 
     def rank(self):
-        return sorted(self.giftsScore.items(), key=lambda x: x[1],reverse=True) # rank dictionary
+        self.giftsScore = dict(sorted(self.giftsScore.items(), key=lambda x: x[1],reverse=True)) # rank dictionary
+        return self.giftsScore
 
+    def addPointSustainable(self, idAnswer, score):
+        pass
 
-def addPointSustainable(self, idAnswer,score):
-       pass
+    def firstPosition(self):
+        res = self.giftNames.get(list(self.giftsScore.keys())[0])
+        return res
 
+    def secondPosition(self):
+        res = self.giftNames.get(list(self.giftsScore.keys())[1])
+        return res
 
+    def thirdPosition(self):
+        res = self.giftNames.get(list(self.giftsScore.keys())[2])
+        return res

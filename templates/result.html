@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Result</title>
+    <script>
+    function hide() {
+      var x = document.getElementById("myDIV");
+      if (x.style.display === "block") {
+        x.style.display = "none";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
     <style>
         body{
             background-color: red;
@@ -13,5 +23,16 @@
 <body>
 il rank
     {{ rank }}
+    <br> il primo posto va a {{ fisrt_position }}
+    <br> <br>
+    Ti piace?
+    <button onclick="hide()">Yes</button>
+    <div>
+    OTHER RESULTS:
+        <br>
+        2 --> {{ second_position }}
+        <br>
+        3 --> {{ third_position }}
+    </div>
 </body>
 </html>
