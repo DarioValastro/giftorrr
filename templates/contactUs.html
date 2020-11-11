@@ -1,16 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contact Us</title>
-    <style>
-        body{
-            background-color: red;
-        }
-    </style>
-</head>
-<body>
+{% include 'module/head.html' %}
+<style>
+    .text-center {
+        background-image: url(/static/img/sfondo_home_prova2.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+    }
 
+</style>
+<link href="/static/stylesheets/customer_service.css" rel="stylesheet">
+<body class="text-center">
+{% include 'module/navbar.html' %}
+
+    <div class="container contact-form">
+                <div class="contact-image">
+                    <img src="/static/img/gift.jpg" />
+                </div>
+                <form method="post">
+                    <h3 style="color: #721c24">Drop Us a Message</h3>
+                   <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="txtName" class="form-control" placeholder="Your Name *" value="" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="txtEmail" class="form-control" placeholder="Your Email *" value="" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="txtProblem" class="form-control" placeholder="What's your problem *" value="" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea name="txtMsg" class="form-control" placeholder="Your Message *" style="width: 130%; height: 280px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+    </div>
+
+    <script src="static/vendor/jquery/jquery.js"></script>
+    <script src="static/vendor/js/bootstrap.bundle.js"></script>
 </body>
-</html>
