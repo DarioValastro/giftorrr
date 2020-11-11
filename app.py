@@ -11,8 +11,6 @@ from model.Question import Question
 from model.Score import Scoree
 
 # CONFIG APP
-
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.debug = True
@@ -35,25 +33,25 @@ db = SQLAlchemy(app)  # create DB
 
 # FORMS
 class AnswerForm3(FlaskForm):
-    submit = SubmitField('')
+    submit = SubmitField(' ')
     answer = RadioField('Answer', choices=['1', '2', '3'],
                         validators=[DataRequired()])
 
 
 class AnswerForm5(FlaskForm):
-    submit = SubmitField('Submit')
+    submit = SubmitField('  ')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5'],
                         validators=[DataRequired()])
 
 
 class AnswerForm6(FlaskForm):
-    submit = SubmitField('Submit')
+    submit = SubmitField('   ')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6'],
                         validators=[DataRequired()])
 
 
 class AnswerForm10(FlaskForm):
-    submit = SubmitField('Submit')
+    submit = SubmitField('    ')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                         validators=[DataRequired()])
 
@@ -116,16 +114,9 @@ def finishQuestions(count):
         return False
 
 
-def sendPathToDB(path,countQuestion,idAnswer):
-    pathFinal = path + 'Q'+ str(countQuestion+1) + ':A' + str(idAnswer) + "--End"
+def sendPathToDB(path, countQuestion, idAnswer):
+    pathFinal = path + 'Q' + str(countQuestion + 1) + ':A' + str(idAnswer) + "--End"
     print(pathFinal)
-
-'''
-def getQuestionFromDB(count):
-    q = Questions.query.filter(Questions.idQuestion == count + 1).first()
-    resQ = Question(idQuestion=q.idQuestion, textQuestion=q.textQuestion)
-    return resQ
-'''
 
 
 def getAswersFromDB(count):
@@ -182,6 +173,16 @@ def about_Us():
     return render_template('aboutUs.html')
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html') #, 404  why??
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html') # , 500
+
+
 # CONFIG GAME
 count = 0
 path = 'Start'
@@ -192,6 +193,8 @@ gifts = getGiftsFromDB()
 
 game = Game(questions, gifts)
 game.initializeGiftsScore()
+
+
 ######
 
 
@@ -228,6 +231,7 @@ def testt(idQuestion=None, path=None):
 
         # add point to gifts
         idanswer = form.answer.data
+        print(idanswer)
         score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
         if count == 3:  # è la domanda sul prezzo
             game.deleteDueToPrice(idAnswer=idanswer)
@@ -240,8 +244,9 @@ def testt(idQuestion=None, path=None):
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
-            sendPathToDB(path,count,form.answer.data)
-            return render_template('result.html', rank=game.rank(),fisrt_position=game.firstPosition(),second_position=game.secondPosition(), third_position=game.thirdPosition())
+            sendPathToDB(path, count, form.answer.data)
+            return render_template('result.html', rank=game.rank(), fisrt_position=game.firstPosition(),
+                                   second_position=game.secondPosition(), third_position=game.thirdPosition())
         else:
 
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,

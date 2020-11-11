@@ -1,58 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Test</title>
-    <style>
-        body{
-            background-color: whitesmoke;
-        }
+{% include 'module/head.html' %}
+<style>
+    .buttonSubmit{
+        opacity: 1;
+    }
 
-        .card {
-            background-color: red;
-          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-          transition: 0.3s;
-          width: 40%;
-            margin: 3% 15% 15% 15%;
-            padding: 15%;
-            text-align: center;
-            border-radius: 5% 5% 5% 5%;
-        }
+</style>
 
+<script src="static/vendor/jquery/jquery.js"></script>
+<script src="static/vendor/js/bootstrap.bundle.js"></script>
+<body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;">
+{% include 'module/navbar.html' %}
+<main role="main" class="container" >
+    <br><br><br><br>
+        <div class="jumbotron" style="color: #721c24;opacity: 0.9">
 
-        .buttonSubmit{
-            background-color: whitesmoke;
-             display: inline-block;
-            width: 100%;
-            margin: 2%;
-            cursor: pointer;
-            border-radius: 5% 5% 5% 5%;
-        }
-    </style>
-</head>
-<body>
-<div class="card">
+        <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}/{{ path }}" method = "post">
+        <h1 class="display-4" style="opacity: initial;font-weight: bold ">{{ questions[counterQuestion].getTextQuestion() }}</h1>
+        {{ form.csrf }}
+        {{ form.hidden_tag() }}
+        <hr class="my-4">
+        <ul class="list-inline" style="opacity: initial">
+            {% for a in answers %}
+          <li class="list-inline-item">{{ a.getTextAnswer() }}
+              <input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer"> </li>
+           {% endfor %}
+        </ul>
 
-    <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}/{{ path }}" method = "post">
-    <h1>{{ questions[counterQuestion].getTextQuestion() }}</h1>
-    {{ form.csrf }}
-    {{ form.hidden_tag() }}
+            <submit>
+                <a href="{{ url_for('testt',idQuestion=counterQuestion,path=path) }}" style="background: #721c24; width: 25%"  class="btn btn-primary" role="button"> Continue {{ form.submit(class='buttonSubmit') }}</a>
+            </submit> # RESOLVE!!!
+        </form>
+    </div>
 
-    <table>
-        <tr>
-        {% for a in answers %}
-            <td>{{ a.getTextAnswer() }}</td>
-            <td><input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer"></td>
-        {% endfor %}
-        </tr>
-        <tr>
-        </tr>
-    </table>
-        <submit>
-            <a href="{{ url_for('testt',idQuestion=counterQuestion,path=path) }}" class="button">{{ form.submit(class='buttonSubmit') }}</a>
-        </submit>
-    </form>
-</div>
+</main>
+
+{% include 'module/footer.html' %}
 </body>
 </html>

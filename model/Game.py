@@ -11,7 +11,7 @@ class Game:
     def initializeGiftsScore(self):
         for g in self.gifts:
             self.giftsScore[g.getIdGift()] = 0
-            print(g.idGift,str(g.name))
+            #print(g.idGift,str(g.name))
             self.giftNames[g.idGift] = str(g.name)
 
     def addPoint(self, score):
@@ -74,9 +74,8 @@ class Game:
             self.gifts = tempGifts
             self.giftsScore = tempGiftsScore
 
-        print(self.giftsScore)
-        for g in self.gifts:
-            print(g.idGift, g.name)
+        #for g in self.gifts:
+        #    print(g.idGift, g.name)
 
     def rank(self):
         self.giftsScore = dict(sorted(self.giftsScore.items(), key=lambda x: x[1],reverse=True)) # rank dictionary
