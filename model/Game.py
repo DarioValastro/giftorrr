@@ -11,8 +11,7 @@ class Game:
     def initializeGiftsScore(self):
         for g in self.gifts:
             self.giftsScore[g.getIdGift()] = 0
-            #print(g.idGift,str(g.name))
-            self.giftNames[g.idGift] = str(g.name)
+            self.giftNames[g.idGift] = g
 
     def addPoint(self, score):
         for g in self.gifts:
@@ -36,7 +35,7 @@ class Game:
             self.giftsScore = tempGiftsScore
         elif int(idAnswer) == 11:  # 10-25€
             for g in self.gifts:
-                print(g.idGift,g.name,g.getPriceLL(),g.getPriceUL())
+                print(g.idGift, g.name, g.getPriceLL(), g.getPriceUL())
                 if g.getPriceLL() <= 25 and g.getPriceUL() > 10:
                     tempGifts.append(g)
                     tempGiftsScore[g.idGift] = self.giftsScore[g.idGift]
@@ -74,11 +73,11 @@ class Game:
             self.gifts = tempGifts
             self.giftsScore = tempGiftsScore
 
-        #for g in self.gifts:
+        # for g in self.gifts:
         #    print(g.idGift, g.name)
 
     def rank(self):
-        self.giftsScore = dict(sorted(self.giftsScore.items(), key=lambda x: x[1],reverse=True)) # rank dictionary
+        self.giftsScore = dict(sorted(self.giftsScore.items(), key=lambda x: x[1], reverse=True))  # rank dictionary
         return self.giftsScore
 
     def addPointSustainable(self, idAnswer, score):
