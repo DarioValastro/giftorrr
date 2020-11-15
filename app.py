@@ -33,25 +33,25 @@ db = SQLAlchemy(app)  # create DB
 
 # FORMS
 class AnswerForm3(FlaskForm):
-    submit = SubmitField(' ')
+    submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3'],
                         validators=[DataRequired()])
 
 
 class AnswerForm5(FlaskForm):
-    submit = SubmitField('  ')
+    submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5'],
                         validators=[DataRequired()])
 
 
 class AnswerForm6(FlaskForm):
-    submit = SubmitField('   ')
+    submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6'],
                         validators=[DataRequired()])
 
 
 class AnswerForm10(FlaskForm):
-    submit = SubmitField('    ')
+    submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                         validators=[DataRequired()])
 
@@ -108,7 +108,7 @@ def getQuestionsFromDB():
 
 
 def finishQuestions(count):
-    if count == 4:
+    if count % 4 == 0:
         return True
     else:
         return False
@@ -156,10 +156,25 @@ def getFormBasedOnLength(len):
         return AnswerForm10(request.form)
 
 
+# CONFIG GAME
+count = 0
+path = 'Start'
+
+# Questions
+questions = getQuestionsFromDB()
+gifts = getGiftsFromDB()
+
+game = Game(questions, gifts)
+game.initializeGiftsScore()
+
+
+######
+
+
 # ROUTE
 @app.route('/')
-@app.route('/home/')
 def home():
+    game.refreshGame()
     return render_template('home.html')
 
 
@@ -175,27 +190,12 @@ def about_Us():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html') #, 404  why??
+    return render_template('404.html')  # , 404  why??
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('500.html') # , 500
-
-
-# CONFIG GAME
-count = 0
-path = 'Start'
-
-# Questions
-questions = getQuestionsFromDB()
-gifts = getGiftsFromDB()
-
-game = Game(questions, gifts)
-game.initializeGiftsScore()
-
-
-######
+    return render_template('500.html')  # , 500
 
 
 # PRIMA ROUTE DOMANDE
@@ -245,10 +245,9 @@ def testt(idQuestion=None, path=None):
 
         if finishQuestions(count):
             sendPathToDB(path, count, form.answer.data)
-            return render_template('result.html', rank=game.rank(), fisrt_position=game.firstPosition(),
-                                   second_position=game.secondPosition(), third_position=game.thirdPosition())
+            game.rank()
+            return render_template('result.html', rank=game.rank())
         else:
-
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
                                    form=form, path=path)
     except Exception as e:

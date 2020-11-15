@@ -3,7 +3,7 @@ class Gift:
         self.idGift = idGift
         self.name = name
         self.sustainability = sustainability
-        self.url = url
+        self.url = url #TODO se più URL
         self.pic = pic
         self.priceUL = priceUL
         self.priceLL = priceLL

@@ -1,12 +1,21 @@
+import random
+
+
 class Game:
     def __init__(self, questions, gifts):
         self.questions = questions
         self.giftsScore = {}  # to memorize score
         self.gifts = gifts
         self.giftNames = {}
+        self.finalRank = []
+        self.finalRankSecond = []
 
     def getQuestions(self):
         return self.questions
+
+    def refreshGame(self):
+        for g in self.gifts:
+            self.giftsScore[g.getIdGift()] = 0
 
     def initializeGiftsScore(self):
         for g in self.gifts:
@@ -20,8 +29,10 @@ class Game:
                     if s.getValue() == -1:  # quando la risposta è -1 elimina automaticamente il regalo!
                         self.giftsScore.pop(g.idGift)  # check if OK
                         self.gifts.remove(g)
+                        if g.getIdGift() == 15:
+                            print('quiiiiii', g.getName())
                     else:
-                        self.giftsScore[g.idGift] = s.getValue()
+                        self.giftsScore[g.idGift] = self.giftsScore[g.idGift] + s.getValue()
 
     def deleteDueToPrice(self, idAnswer):
         tempGifts = []
@@ -78,19 +89,70 @@ class Game:
 
     def rank(self):
         self.giftsScore = dict(sorted(self.giftsScore.items(), key=lambda x: x[1], reverse=True))  # rank dictionary
-        return self.giftsScore
+        self.finalRank = []
+        self.finalRankSecond = []
+        print('DEBUG DA QUI:')
+        print(self.giftsScore)
+        first_step = True
+        second_step=True
+        first_point = 0
+        second_position = 0
+        third_position = 0
+        print('first final rank', self.finalRank)
+        for g in self.giftsScore:
+            if first_step:
+                first_step = False
+                first_point = self.giftsScore[g]
+                if first_point == self.giftsScore[g]:
+                    self.finalRank.append(g)
+            elif first_point == self.giftsScore[g]:
+                self.finalRank.append(g)
+            elif second_step:
+                second_step=False
+                second_point=self.giftsScore[g]
+                if second_point == self.giftsScore[g]:
+                    self.finalRankSecond.append(g)
+            elif second_point == self.giftsScore[g]:
+                self.finalRankSecond.append(g)
+        print('final rank', self.finalRank)
+        print('second final rank',self.finalRankSecond)
+        id_first_gift = random.choice(self.finalRank)
+        print('idregalo', id_first_gift)
+        first_position = self.giftNames[id_first_gift]
+        print('regalo', first_position.getName())
+        self.finalRank.remove(id_first_gift)
+        print('tolto?', self.finalRank)
+        print('lunghezza', len(self.finalRank))
+        if len(self.finalRank) == 1:
+            id_second_gift = random.choice(self.finalRankSecond)
+            print('idgift random', id_second_gift)
+            second_position = self.giftNames[id_second_gift]
+            print('regalo', second_position.getName())
+            self.finalRankSecond.remove(id_second_gift)
 
+            id_third_gift = random.choice(self.finalRankSecond)
+            third_position = self.giftNames[id_third_gift]
+            self.finalRankSecond.remove(id_third_gift)
+
+            final_res = [first_position, second_position, third_position]
+            return final_res
+        else:
+            id_second_gift = random.choice(self.finalRank)
+            print('idgift random', id_second_gift)
+            second_position = self.giftNames[id_second_gift]
+            print('regalo', second_position.getName())
+            self.finalRank.remove(id_second_gift)
+
+            id_third_gift = random.choice(self.finalRank)
+            third_position = self.giftNames[id_third_gift]
+            self.finalRank.remove(id_third_gift)
+
+        final_res = [first_position, second_position, third_position]
+
+        perPrint = [first_position.getName(), second_position.getName(), third_position.getName()]
+        print(perPrint)
+        return final_res
+
+    # TODO
     def addPointSustainable(self, idAnswer, score):
         pass
-
-    def firstPosition(self):
-        res = self.giftNames.get(list(self.giftsScore.keys())[0])
-        return res
-
-    def secondPosition(self):
-        res = self.giftNames.get(list(self.giftsScore.keys())[1])
-        return res
-
-    def thirdPosition(self):
-        res = self.giftNames.get(list(self.giftsScore.keys())[2])
-        return res

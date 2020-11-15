@@ -5,6 +5,22 @@
         weight: 100%
     }
 
+    .hr-theme-slash-2 {
+  display: flex;
+
+  .hr-line {
+    width: 100%;
+    position: relative;
+    margin: 15px;
+    border-bottom: 1px solid #000;
+  }
+  .hr-icon {
+    position: relative;
+    top: 3px;
+    color: #ff0000;
+  }
+}
+
 </style>
 
 <script src="static/vendor/jquery/jquery.js"></script>
@@ -19,25 +35,23 @@
         <div class="jumbotron" style="color: #721c24;opacity: 0.9">
 
         <form action = "http://127.0.0.1:5000/testt/{{ counterQuestion }}/{{ path }}" method = "post">
-        <h1 class="display-4" style="opacity: initial;font-weight: bold ">{{ questions[counterQuestion].getTextQuestion() }}</h1>
+        <h1 class="display-4" style="opacity: initial;font-weight: bold "> <i class="fa fa-gift" style="font-size:150%;color:darkred;margin-right: 5%;margin-left: 5%;"></i>{{ questions[counterQuestion].getTextQuestion() }}</h1>
         {{ form.csrf }}
         {{ form.hidden_tag() }}
         <hr class="my-4">
         <ul class="list-inline" style="opacity: initial">
             {% for a in answers %}
           <li class="list-inline-item">{{ a.getTextAnswer() }}
-              <input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer"> </li>
+              <input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer" required> </li>
            {% endfor %}
         </ul>
-
             <submit>
-                <a href="{{ url_for('testt',idQuestion=counterQuestion,path=path) }}" style="background: #721c24; width: 25%"  class="btn btn-primary" role="button"> Continue {{ form.submit(class='buttonSubmit') }}</a>
-            </submit> # RESOLVE!!!
+                <a href="{{ url_for('testt',idQuestion=counterQuestion,path=path) }}"  role="button"> {{ form.submit(class='btn btn-danger')  }}</a>
+            </submit>
         </form>
     </div>
 
 </main>
 
-{% include 'module/footer.html' %}
 </body>
 </html>
