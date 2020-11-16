@@ -1,0 +1,35 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <nav  class="navbar navbar-expand-lg navbar-light bg-light fixed-top"  style="background-color: red;opacity: 0.4;">
+      <div class="container" >
+                  <a class="navbar-brand" href="{{ url_for('home_ita') }}">
+                     <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>GIFTOR<i class="fa fa-gift" style="font-size:150%;color:darkred"></i></a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('about_Us_ita') }}">
+                  <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>Riguardo noi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('contact_Us_ita') }}">
+                  <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>Contattaci</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>Languages</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown09">
+                <a class="dropdown-item" href="{{ url_for('home') }}"><span class="flag-icon flag-icon-gb"> </span> Inglese</a>
+                <a class="dropdown-item" href="{{ url_for('home_ita') }}"><span class="flag-icon flag-icon-it"> </span> Italiano</a>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>

@@ -198,6 +198,22 @@ def internal_server_error(e):
     return render_template('500.html')  # , 500
 
 
+#route ita_page
+@app.route('/')
+def home_ita():
+    game.refreshGame()
+    return render_template('home_ita.html')
+
+@app.route('/contactUs_ita/')
+def contact_Us_ita():
+    return render_template('contactUs_ita.html')
+
+@app.route('/aboutUs_ita/')
+def about_Us_ita():
+    return render_template('aboutUs_ita.html')
+
+
+
 # PRIMA ROUTE DOMANDE
 @app.route('/test', methods=['GET', 'POST'])
 def test():

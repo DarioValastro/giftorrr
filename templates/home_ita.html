@@ -1,0 +1,40 @@
+
+{% include 'module/head.html' %}
+
+
+
+
+  <body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;">
+
+    {% include 'module/navbar_ita.html' %}
+
+      <div class="cover-container d-flex w-300 h-300 p-3 mx-auto flex-column">
+
+              <main role="main" class="inner cover" style="font-size: 135%">
+                  <br>
+                  <h1 class="cover-heading" style="color: whitesmoke;font-weight: bold;font-family: 'Lucida Console', Courier, monospace;">
+                      <i class="fa fa-gift" style="font-size:150%;color:darkred;margin-right: 5%;margin-left: 5%;"></i>
+                      GIFTOR
+                  </h1>
+                  <hr class="my-4" style="color: darkred">
+                  <p>Non sai cosa regalare questo Natale?</p><br>
+                  <p>Questa web app sta solo cercando di trovare il regalo perfetto per chiunque rispondendo a semplici domande</p>
+                  <br>
+                  <p class="lead">
+                    <a href="{{ url_for('test') }}" class="btn btn-danger" style="width: 50%">INIZIA</a>  <!-- ref alla pagina delle domande -->
+                  </p>
+
+              </main>
+              {% include 'module/footer.html' %}
+      </div>
+
+    <script src="static/vendor/jquery/jquery.js"></script>
+    <script src="static/vendor/js/bootstrap.bundle.js"></script>
+
+
+  </body>
+
+
