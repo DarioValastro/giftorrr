@@ -1,0 +1,81 @@
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/static/vendor/boostrap/jquery/jquery.slim.min.js"><\/script>')</script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+{% include 'module/head.html' %}
+    <style type="text/css">
+
+        #myDivPositiveFeedback{
+            display: none;
+        }
+
+        #myDivNegativeFeedback{
+            display: none;
+        }
+
+        #myDivButtonFeedBack{
+            display: block;
+        }
+
+    </style>
+    <script>
+    function showPositiveFeedback() {
+      document.getElementById("myDivPositiveFeedback").style.display = "block";
+      document.getElementById("myDivNegativeFeedback").style.display = "none";
+      document.getElementById("myDivButtonFeedBack").style.display = "none";
+      }
+
+      function showNegativeFeedback() {
+      document.getElementById("myDivNegativeFeedback").style.display = "block";
+      document.getElementById("myDivPositiveFeedback").style.display = "none";
+      document.getElementById("myDivButtonFeedBack").style.display = "none";
+      }
+    </script>
+
+
+<body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;">
+
+{% include 'module/navbar.html' %}
+
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+              <main role="main" class="inner cover" style="font-size: 135%">
+                  <br><br>
+                  <br><br>
+                  <h1 class="cover-heading"> <p>A perfect gift might be:</p><br> {{ rank[0].getNameIta() }} </h1>
+                  <p>You can see this gift from this <a href="{{ rank[0].getUrl() }}" target="_blank"> link</a></p>
+                  <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style=" border-radius: 25px;" alt="Responsive image">
+                  <br>
+                  <div id="myDivButtonFeedBack">
+                      <button class="btn btn-success" onclick="showPositiveFeedback()">It's perfect</button>
+                  <button class="btn btn-danger" onclick="showNegativeFeedback()">It's not perfect</button>
+                  </div>
+                <div id="myDivPositiveFeedback">
+                <h2>:) Other wonderful gifts:</h2>
+                    <br>
+                    <p>{{ rank[1].getNameIta() }}</p>
+                    <p>Puoi vedere il regalo da questo link <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
+                    <br>
+                    <p>{{ rank[-1].getNameIta() }}</p>
+                    <p>Puoi vedere il regalo da questo <a href="{{ rank[-1].getUrl() }}" target="_blank">link</a> </p>
+                </div>
+                  <div id="myDivNegativeFeedback">
+                <h2> :( Forse questi regali sono meglio:</h2>
+                    <br>
+                    <p>{{ rank[1].getNameIta() }}</p>
+                    <p>Puoi vedere il regalo da questo <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
+                      <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="25%" height="25%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/>
+                          <image href="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" x="0" y="0" height="100%" width="100%"/></svg>
+                    <br>
+                    <p>{{ rank[-1].getNameIta()  }}</p>
+                    <p>Puoi vedere il regalo da questo <a href="{{ rank[-1].getUrl()  }}" target="_blank">link</a> </p>
+                </div>
+              </main>
+
+    {% include 'module/footer.html' %}
+     </div>
+
+</body>

@@ -62,19 +62,15 @@ class AnswerForm10(FlaskForm):
 # CLASS DB
 class Questions(db.Model):
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
-    textQuestion = db.Column(db.String)
-
-    def __init__(self, textQuestion):
-        self.textQuestion = textQuestion
-
-    def __repr__(self):
-        return '<Question %r>' % self.textQuestion
+    textQuestion = db.Column('textQuestion', db.String)
+    textQuestionIta = db.Column('textQuestionIta', db.String)
 
 
 class Answers(db.Model):
     idAnswer = db.Column('idAnswer', db.Integer, primary_key=True)
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
     textAnswer = db.Column('textAnswer', db.String)
+    textAnswerIta = db.Column('textAnswerIta', db.String)
 
 
 class Gifts(db.Model):
@@ -85,6 +81,7 @@ class Gifts(db.Model):
     sustainable = db.Column('sustainable', db.Integer)
     priceUL = db.Column('priceUL', db.Integer)
     priceLL = db.Column('priceLL', db.Integer)
+    textGiftIta = db.Column('textGiftIta', db.String)
 
 
 class Score(db.Model):
@@ -103,7 +100,8 @@ def getQuestionsFromDB():
     questions = Questions.query.distinct()
     resQuestions = []
     for q in questions:
-        resQuestions.append(Question(idQuestion=q.idQuestion, textQuestion=q.textQuestion))
+        resQuestions.append(Question(idQuestion=q.idQuestion, textQuestion=q.textQuestion,
+                                     textQuestionIta=q.textQuestionIta))
     return resQuestions
 
 
@@ -113,7 +111,7 @@ def finishQuestions(count):
     else:
         return False
 
-
+#TODO
 def sendPathToDB(path, countQuestion, idAnswer):
     pathFinal = path + 'Q' + str(countQuestion + 1) + ':A' + str(idAnswer) + "--End"
     print(pathFinal)
@@ -123,7 +121,7 @@ def getAswersFromDB(count):
     answers = Answers.query.filter(Answers.idQuestion == count + 1)
     resAnswers = []
     for a in answers:
-        resAnswers.append(Answer(idAnswer=a.idAnswer, idQuestion=count + 1, textAnswer=a.textAnswer))
+        resAnswers.append(Answer(idAnswer=a.idAnswer, idQuestion=count + 1, textAnswer=a.textAnswer,textAnswerIta=a.textAnswerIta))
     return resAnswers
 
 
@@ -131,8 +129,7 @@ def getGiftsFromDB():
     gifts = Gifts.query.distinct()
     resGifts = []
     for g in gifts:
-        resGifts.append(Gift(idGift=g.idGift, name=g.textGift, sustainability=g.sustainable, url=g.link, pic=g.pic,
-                             priceUL=g.priceUL, priceLL=g.priceLL))
+        resGifts.append(Gift(idGift=g.idGift, name=g.textGift, sustainability=g.sustainable, url=g.link, pic=g.pic,priceUL=g.priceUL, priceLL=g.priceLL, nameIta=g.textGiftIta))
     return resGifts
 
 
@@ -175,43 +172,54 @@ game.initializeGiftsScore()
 @app.route('/')
 def home():
     game.refreshGame()
-    return render_template('home.html')
+    return render_template('home.html', language='eng')
 
 
 @app.route('/contactUs/')
 def contact_Us():
-    return render_template('contactUs.html')
+    return render_template('contactUs.html', language='eng')
 
 
 @app.route('/aboutUs/')
 def about_Us():
-    return render_template('aboutUs.html')
+    return render_template('aboutUs.html', language='eng')
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html')  # , 404  why??
+    return render_template('404.html', language='eng')
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('500.html')  # , 500
+    return render_template('500.html', language='eng')
 
 
-#route ita_page
-@app.route('/')
+# ROUTE ita_page
+@app.route('/ita')
 def home_ita():
     game.refreshGame()
-    return render_template('home_ita.html')
+    return render_template('home_ita.html', language='ita')
+
 
 @app.route('/contactUs_ita/')
 def contact_Us_ita():
-    return render_template('contactUs_ita.html')
+    return render_template('contactUs_ita.html', language='ita')
+
 
 @app.route('/aboutUs_ita/')
 def about_Us_ita():
-    return render_template('aboutUs_ita.html')
+    return render_template('aboutUs_ita.html', language='ita')
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404_ita.html', language='ita')
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500_ita.html', language='ita')
 
 
 # PRIMA ROUTE DOMANDE
@@ -225,7 +233,7 @@ def test():
         form = getFormBasedOnLength(len(answers))
 
         return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
-                               form=form, path=path)
+                               form=form, path=path, language='eng')
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
@@ -262,10 +270,68 @@ def testt(idQuestion=None, path=None):
         if finishQuestions(count):
             sendPathToDB(path, count, form.answer.data)
             game.rank()
-            return render_template('result.html', rank=game.rank())
+            return render_template('result.html', rank=game.rank(), language='eng')
         else:
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
-                                   form=form, path=path)
+                                   form=form, path=path, language='eng')
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+
+
+@app.route('/test_ita', methods=['GET', 'POST'])
+def test_ita():
+    try:
+        # Answers
+        answers = getAswersFromDB(count)
+
+        # form
+        form = getFormBasedOnLength(len(answers))
+
+        return render_template('test_ita.html', questions=game.questions, counterQuestion=count, answers=answers,
+                               form=form, path=path, language='ita')
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+
+
+# ALTRE ROUTE DOMANDE
+@app.route('/testt_ita/<idQuestion>/<path>', methods=['GET', 'POST'])
+def testt_ita(idQuestion=None, path=None):
+    try:
+        count = int(idQuestion) + 1  # contatore idQuestion
+
+        # Answers
+        answers = getAswersFromDB(count)  # risposte alla domanda attuale
+
+        # form
+        form = getFormBasedOnLength(len(answers))
+
+        # add point to gifts
+        idanswer = form.answer.data
+        print(idanswer)
+        score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
+        if count == 3:  # è la domanda sul prezzo
+            game.deleteDueToPrice(idAnswer=idanswer)
+        elif count == 6:  # è la domanda sulla Sostenibilità
+            game.addPointSustainable(idAnswer=idanswer, score=score)
+        else:
+            game.addPoint(score=score)
+
+        # print(form.answer.data)
+        path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
+
+        if finishQuestions(count):
+            sendPathToDB(path, count, form.answer.data)
+            game.rank()
+            return render_template('result_ita.html', rank=game.rank(), language='ita')
+        else:
+            return render_template('test_ita.html', questions=game.questions, counterQuestion=count, answers=answers,
+                                   form=form, path=path, language='ita')
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"

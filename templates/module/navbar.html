@@ -13,19 +13,27 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
+                {% if language=='eng'%}
               <a class="nav-link" href="{{ url_for('about_Us') }}">
+                    {% elif language=='ita' %}
+              <a class="nav-link" href="{{ url_for('about_Us_ita') }}">
+                  {% endif %}
                   <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>About Us</a>
             </li>
             <li class="nav-item">
+             {% if language=='eng'%}
               <a class="nav-link" href="{{ url_for('contact_Us') }}">
-                  <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>Contact Us</a>
+              {% elif language=='ita' %}
+                  <a class="nav-link" href="{{ url_for('contact_Us_ita') }}">
+              {% endif %}
+                      <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>Contact Us</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-gift" style="font-size:150%;color:darkred"></i>Languages</a>
               <div class="dropdown-menu" aria-labelledby="dropdown09">
-                <a class="dropdown-item" href="#uk"><span class="flag-icon flag-icon-gb"> </span> English</a>
-                <a class="dropdown-item" href="#it"><span class="flag-icon flag-icon-it"> </span> Italian</a>
+                <a class="dropdown-item" href="{{ url_for('home') }}"><span class="flag-icon flag-icon-gb"> </span> English</a>
+                <a class="dropdown-item" href="{{ url_for('home_ita') }}"><span class="flag-icon flag-icon-it"> </span> Italian</a>
               </div>
             </li>
 

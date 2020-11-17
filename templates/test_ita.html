@@ -1,0 +1,56 @@
+{% include 'module/head.html' %}
+<style>
+    .buttonSubmit{
+        opacity: 1;
+        weight: 100%
+    }
+
+    .hr-theme-slash-2 {
+  display: flex;
+
+  .hr-line {
+    width: 100%;
+    position: relative;
+    margin: 15px;
+    border-bottom: 1px solid #000;
+  }
+  .hr-icon {
+    position: relative;
+    top: 3px;
+    color: #ff0000;
+  }
+}
+
+</style>
+<script src="static/vendor/jquery/jquery.js"></script>
+<script src="static/vendor/js/bootstrap.bundle.js"></script>
+<body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;">
+{% include 'module/navbar.html' %}
+<main role="main" class="container" >
+    <br><br><br><br>
+        <div class="jumbotron" style="color: #721c24;opacity: 0.9">
+
+        <form action = "http://127.0.0.1:5000/testt_ita/{{ counterQuestion }}/{{ path }}" method = "post">
+        <h1 class="display-4" style="opacity: initial;font-weight: bold "> <i class="fa fa-gift" style="font-size:150%;color:darkred;margin-right: 5%;margin-left: 5%;"></i>{{ questions[counterQuestion].getTextQuestionIta() }}</h1>
+        {{ form.csrf }}
+        {{ form.hidden_tag() }}
+        <hr class="my-4">
+        <ul class="list-inline" style="opacity: initial">
+            {% for a in answers %}
+          <li class="list-inline-item">{{ a.getTextAnswerIta() }}
+              <input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer" required> </li>
+           {% endfor %}
+        </ul>
+            <submit>
+                <a href="{{ url_for('testt_ita',idQuestion=counterQuestion,path=path) }}"  role="button"> {{ form.submit(class='btn btn-danger')  }}</a>
+            </submit>
+        </form>
+    </div>
+
+</main>
+
+</body>
+</html>
