@@ -45,9 +45,22 @@
               <main role="main" class="inner cover" style="font-size: 135%">
                   <br><br>
                   <br><br>
-                  <h1 class="cover-heading"> <p>A perfect gift might be:</p><br> {{ rank[0].getNameIta() }} </h1>
-                  <p>You can see this gift from this <a href="{{ rank[0].getUrl() }}" target="_blank"> link</a></p>
-                  <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style=" border-radius: 25px;" alt="Responsive image">
+                  <h1>A perfect gift might be:</h1>
+                  <table style="width: 100%;border-spacing: 5rem;">
+                      <tr>
+                          <td>
+                              <h1 class="cover-heading"> <br> {{ rank[0].getNameIta() }} </h1>
+                                <p>You can see this gift from this <a href="{{ rank[0].getUrl() }}" target="_blank"> link</a></p>
+                          </td>
+                         <td>
+                               <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style=" border-radius: 25px;" alt="Responsive image">
+                          </td>
+                      </tr>
+
+                  </table>
+
+
+
                   <br>
                   <div id="myDivButtonFeedBack">
                       <button class="btn btn-success" onclick="showPositiveFeedback()">It's perfect</button>

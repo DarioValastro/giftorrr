@@ -45,9 +45,21 @@
               <main role="main" class="inner cover" style="font-size: 135%">
                   <br><br>
                   <br><br>
-                  <h1 class="cover-heading"> <p>A perfect gift might be:</p><br> {{ rank[0].getName() }} </h1>
-                  <p>You can see this gift from this <a href="{{ rank[0].getUrl() }}" target="_blank"> link</a></p>
-                  <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style=" border-radius: 25px;" alt="Responsive image">
+                  <h1>A perfect gift might be:</h1>
+                  <!-- TODO fix table -->
+                  <table style="width: 100%;border-spacing: 5rem;">
+                     <tr>
+                          <td> <h1 class="cover-heading"> <br> {{ rank[0].getName() }} </h1>
+                                <p>You can see this gift from this <a href="{{ rank[0].getUrl() }}" target="_blank"> link</a></p>
+                          </td>
+                          <td>
+                              <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style=" border-radius: 25px;" alt="Responsive image">
+                          </td>
+                      </tr>
+                  </table>
+
+
+
                   <br>
                   <div id="myDivButtonFeedBack">
                       <button class="btn btn-success" onclick="showPositiveFeedback()">It's perfect</button>
@@ -67,8 +79,6 @@
                     <br>
                     <p>{{ rank[1].getName() }}</p>
                     <p>You can see this gift from this <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
-                      <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="25%" height="25%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/>
-                          <image href="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" x="0" y="0" height="100%" width="100%"/></svg>
                     <br>
                     <p>{{ rank[-1].getName()  }}</p>
                     <p>You can see this gift from this <a href="{{ rank[-1].getUrl()  }}" target="_blank">link</a> </p>

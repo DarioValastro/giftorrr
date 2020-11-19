@@ -255,7 +255,7 @@ def testt(idQuestion=None, path=None):
 
         # add point to gifts
         idanswer = form.answer.data
-        print(idanswer)
+
         score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
         if count == 3:  # è la domanda sul prezzo
             game.deleteDueToPrice(idAnswer=idanswer)
@@ -322,7 +322,6 @@ def testt_ita(idQuestion=None, path=None):
         else:
             game.addPoint(score=score)
 
-        # print(form.answer.data)
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
