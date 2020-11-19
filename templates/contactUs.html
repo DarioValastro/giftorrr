@@ -3,6 +3,7 @@
 <script src="/static/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 
 {% include 'module/head.html' %}
+{% include 'module/social_bar.html' %}
 <html class="text-center">
 <link href="/static/stylesheets/customer_service.css" rel="stylesheet">
 <body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
@@ -27,7 +28,14 @@
                                 <input type="text" name="txtEmail" class="form-control" placeholder="Your Email *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" name="txtProblem" class="form-control" placeholder="What's your problem *" value="" />
+                                <label for="country">What’s wrong?</label>
+                                <select class="custom-select d-block w-100" id="country" required>
+                                  <option value="">Problem with web site</option>
+                                  <option>Leave feedback</option>
+                                  <option>Proposing a present</option>
+                                  <option>Are you a store owners?</option>
+                                  <option>Other information</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />

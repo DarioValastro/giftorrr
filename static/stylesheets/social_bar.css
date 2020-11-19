@@ -1,0 +1,35 @@
+*{margin: 0;padding: 0;}
+
+.social-bar{
+    position: fixed;
+    top: 100px;
+}
+.social-bar ul{
+    list-style: none;
+}
+
+.social-bar ul li a{
+    display: inline-block;
+    color: #FFF;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: all 0.3s ease-out;
+    opacity: 0.8;
+
+}
+
+.social-bar ul li a:hover {
+    padding: 10px 30px;
+}
+
+.fb {
+    background-color: #3b5998;
+
+}
+
+.insta {
+    background-color: #e4405f;
+    opacity: 0.4;
+}
+
+

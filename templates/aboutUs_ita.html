@@ -1,4 +1,5 @@
 {% include 'module/head.html' %}
+{% include 'module/social_bar.html' %}
 <link href="../static/stylesheets/carousel.css" rel="stylesheet">
 <body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
         background-size: cover;
@@ -19,39 +20,36 @@
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <!-- <svg  class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-            <rect width="100%" height="100%" />
-            <image href="/static/img/sfondo_home_prova2.jpg" x="0" y="0" height="100%" width="100%"/>
-
-            </svg> -->
             <div class="container">
               <div class="carousel-caption text-center">
-                <h1>La nostra Mission</h1>
-                <p>Trovare regali perfetti per chiunque</p>
-                <p>Grazie al Giftor, fare regali perfetti non sara' un problema</p>
+                <h1>Millenials</h1>
+                <p>
+                    Sempre connessi tra di loro e in grado di conoscere qualcuno meglio di chiunque altro grazie frequenti interazioni sociali. Loro sono quelli che meglio si adattano alle caratteristiche del nostro servizio,
+                    fornendoci preziosi feedback e consigli in grado di garantire al team la possibilità di raggiungere elevati livelli di accuratezza.
+                </p>
               </div>
             </div>
           </div>
           <div class="carousel-item">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-               <!-- <image href="/static/img/partnership.jpg" x="0" y="0" height="100%" width="100%"/> -->
-            </svg>
             <div class="container">
               <div class="carousel-caption">
-                <h1>Contattaci</h1>
-                <p> Se vuoi suggerire dei regali meravigliosi, condividere i feedback o le opinioni </p>
+                <h1>Propretari di Negozi</h1>
+                <p>
+                    Rivolto a tutti i piccoli business ed e-commerce che si trovano in difficolta nello sviluppare e rilasciare strategie efficaci per accelerare il processo di scelta del cliente in modo semplice e confidenziale.
+                    Questo permette ai business di essere visti da più persone e di aumentare la possibilità di chiudere più affari facendo crescere i ricavi senza sforzo
+                </p>
                 <p><a class="btn btn-lg btn"  style="background: #FFFFFF" href="{{ url_for('contact_Us_ita') }}" role="button">Contattaci</a></p>
               </div>
             </div>
           </div>
           <div class="carousel-item">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                            </svg>
             <div class="container">
               <div class="carousel-caption text-CENTER">
-                <h1>I nostri valori</h1>
-                <p>Oggi più che mai, la salvaguardia del nostro pianeta è importante. Il nostro obiettivo è quindi quello di suggerire regali più sostenibili possibile</p>
-              </div>
+                <h1>Lavoratori</h1>
+                <p>
+                    La maggior parte delle volte senza troppe idee e tempo da spendere per cercare regali piacevoli per altre persone, ma con più consapevolezza di quanto un bel regalo posso soddisfare il ricevitore.
+                    Usando questo servizio finiranno per guadagnare tempo libero a fine giornata sentendosi più soddisfatti.
+                </p></div>
             </div>
           </div>
         </div>
@@ -73,11 +71,17 @@
 
             <div class="row featurette">
               <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: white">La nostra Mission</h2>
-                <p class="lead" style="color: #ffffff">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading" style="color: white">Mission</h2>
+                <p class="lead" style="color: #ffffff">
+                    Il progetto mira a aiutare tutti a fare un buon regalo!
+                    I regali hanno a che fare con la felicità e la gioia, questa è una cosa cruciale che potrebbe caratterizzare ogni momento della nostra vita.
+                    Potrebbe essere un grande regalo o un piccolo pensiero, ma quello che conta è rendere speciale quel momento, la felicità è preziosa e GIFTOR pensa a rendere di felicità quel momento.
+                </p>
               </div>
               <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><rect width="100%" height="100%" fill-opacity="0.0"/>
+                    <image href="/static/img/mission.tif" x="0" y="0" height="100%" width="100%"/>
+                </svg>
               </div>
             </div>
 
@@ -85,11 +89,21 @@
 
             <div class="row featurette">
               <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: white">La nostra Vision</h2>
-                <p class="lead" style="color: white">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading" style="color: white">Vision</h2>
+                <p class="lead" style="color: white">
+                    Dietro la scelta del dono si possono nascondere molte cose che rendono questa piccola scelta una cosa importante:
+                    <ul style="text-align: left">
+                          <li>Scegliere un dono adatto al destinatario eviterà sprechi di varie specie, ad esempio la produzione o il denaro.</li>
+                          <li>Scegliere un dono sostenibile potrebbe avere un significato importante per la Terra, ma soprattutto un impatto importante.</li>
+                          <li>Scegliere un dono di un prodotto locale sosterrà i venditori in questo contesto storico particolarmente delicato.</li>
+                          <li>Scegliere Giftor è la giusta scelta.</li>
+                    </ul>
+                </p>
               </div>
               <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><rect width="100%" height="100%" fill-opacity="0.0"/>
+                    <image href="/static/img/vision.png" x="0" y="0" height="100%" width="100%"/>
+                </svg>
               </div>
             </div>
 
@@ -97,11 +111,15 @@
 
             <div class="row featurette">
               <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: white">...</h2>
-                <p class="lead" style="color: white">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading" style="color: white">I nostri valori</h2>
+                <p class="lead" style="color: white">
+                    Proiettati verso il futuro ed interessati alla ricerca e allo sviluppo, la promozione di regali ecosostenibili è una scelta all’avanguardia che possiamo fare per rendere felici chi li riceve e per contribuire concretamente al benessere del Pianeta su cui viviamo
+                </p>
               </div>
               <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><rect width="100%" height="100%" fill-opacity="0.0"/>
+                     <image href="/static/img/values.jpg" x="0" y="0" height="100%" width="100%"/>
+                </svg>
               </div>
             </div>
 

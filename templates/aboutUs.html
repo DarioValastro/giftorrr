@@ -1,4 +1,5 @@
 {% include 'module/head.html' %}
+{% include 'module/social_bar.html' %}
 <link href="../static/stylesheets/carousel.css" rel="stylesheet">
 <body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
         background-size: cover;
@@ -19,38 +20,36 @@
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <!-- <svg  class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-            <rect width="100%" height="100%" />
-            <image href="/static/img/sfondo_home_prova2.jpg" x="0" y="0" height="100%" width="100%"/>
-
-            </svg> -->
             <div class="container">
               <div class="carousel-caption text-center">
-                <h1>Our Mission</h1>
-                <p>Find the perfect gift for everyone</p>
-                <p>Thanks to Giftor, to give perfect gifts won't be a problem again</p>
+                <h1>Millennials</h1>
+                <p>
+                    Always connected each other and with the ability to know somebody better than anyone due to frequently social interaction.
+                    They are the ones who better fit the features of our service, giving us precious feedback and tips in order to enable the team in reaching out higher level of accuracy.
+                </p>
               </div>
             </div>
           </div>
           <div class="carousel-item">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-               <!-- <image href="/static/img/partnership.jpg" x="0" y="0" height="100%" width="100%"/> -->
-            </svg>
             <div class="container">
               <div class="carousel-caption">
-                <h1>Contact us</h1>
-                <p> If you want to suggest wonderful gifts, share feedback or opinions</p>
+                <h1>Store owner</h1>
+                <p>
+                    Aimed at all small business and e-commerce that are struggling in develop and deploy an efficient strategy to speed up the decision process of the costumer in a smooth and confidential way.
+                    This allow the business to be viewed by more people and increase the ability in closing deal rising the revenue effortless.
+                </p>
                 <p><a class="btn btn-lg btn"  style="background: #FFFFFF" href="{{ url_for('contact_Us') }}" role="button">Contact Us</a></p>
               </div>
             </div>
           </div>
           <div class="carousel-item">
-            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                            </svg>
             <div class="container">
               <div class="carousel-caption text-CENTER">
-                <h1>Our Values</h1>
-                <p>Today, more than ever, the safeguarding of our planet is important. Therefore our aim is to suggest more sustainable gifts as possible</p>
+                <h1>Workers</h1>
+                <p>
+                    Mostly of the time without any ideas and time to spend in searching pleasant gift  for other but more conscious in what a perfect gift can give in terms of satisfaction.
+                    Using this service, they ended up in gaining leisure time at the end of the day feeling more accomplished.
+                </p>
               </div>
             </div>
           </div>
@@ -73,11 +72,17 @@
 
             <div class="row featurette">
               <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: white">Our Mission</h2>
-                <p class="lead" style="color: #ffffff">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading" style="color: white">Mission</h2>
+                <p class="lead" style="color: #ffffff">
+                    The project aims to help everyone to make good gift!
+                    Gifts have to do with people happiness and joy, this is a crucial thing that could characterize every moment of our life.
+                    It could be a big present or simply a little thought, but what matters is to make that moment special, happiness is precious and Giftor it is thought to make that moment of happiness unmemorable!
+                </p>
               </div>
               <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><rect width="100%" height="100%" fill-opacity="0.0"/>
+                    <image href="/static/img/mission.tif" x="0" y="0" height="100%" width="100%"/>
+                </svg>
               </div>
             </div>
 
@@ -85,11 +90,21 @@
 
             <div class="row featurette">
               <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading" style="color: white">Our Vision</h2>
-                <p class="lead" style="color: white">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading" style="color: white">Vision</h2>
+                <p class="lead" style="color: white">
+                    Behind the choice of the gift you can hide many things that can make this small choice an important thing:
+                    <ul style="text-align: left">
+                          <li>Choosing a gift suitable for the recipient will avoid waste of various kinds, for example production or money.</li>
+                          <li>Choosing a sustainable gift could have an important meaning for the Earth, but above all an important impact.</li>
+                          <li>Choosing a gift of a local product will support sellers in this particularly delicate historical context.</li>
+                          <li>Choosing Giftor is making the right choice.</li>
+                    </ul>
+                </p>
               </div>
               <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><rect width="100%" height="100%" fill-opacity="0.0"/>
+                    <image href="/static/img/vision.png" x="0" y="0" height="100%" width="100%"/>
+                </svg>
               </div>
             </div>
 
@@ -97,11 +112,15 @@
 
             <div class="row featurette">
               <div class="col-md-7">
-                <h2 class="featurette-heading" style="color: white">...</h2>
-                <p class="lead" style="color: white">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <h2 class="featurette-heading" style="color: white">Values</h2>
+                  <p class="lead" style="color: white">
+                    Projected towards the future and interested in research and development, the promotion of eco-sustainable gift is a cutting-edge choice that we can make to make those who receive them happy and to concretely contribute to the well-being of the Planet on which we live.
+                  </p>
               </div>
               <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><rect width="100%" height="100%" fill-opacity=""/>
+                    <image href="/static/img/values.jpg" x="0" y="0" height="100%" width="100%"/>
+                </svg>
               </div>
             </div>
 
@@ -112,8 +131,6 @@
             <div class="text-center">
                 <h1 class="display-4" style="color: white">Members team</h1>
             </div>
-
-
             <!-- Three columns of text below the carousel -->
             <div class="row">
               <div class="col-lg-4" style="color: white">
