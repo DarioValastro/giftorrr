@@ -17,6 +17,7 @@
             display: block;
         }
 
+
     </style>
     <script>
     function showPositiveFeedback() {
@@ -47,18 +48,21 @@
                   <br><br>
                   <br><br>
                   <h1>A perfect gift might be:</h1>
-                  <!-- TODO fix table -->
-                  <table style="width: 100%;border-spacing: 5rem;">
-                     <tr>
-                          <td> <h1 class="cover-heading"> <br> {{ rank[0].getName() }} </h1>
-                                <p>You can see this gift from this <a href="{{ rank[0].getUrl() }}" target="_blank"> link</a></p>
-                          </td>
-                          <td>
-                              <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style=" border-radius: 25px;" alt="Responsive image">
-                          </td>
-                      </tr>
-                  </table>
+                 <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <h1 class="cover-heading"> <br> {{ rank[0].getName() }} </h1>
 
+                    </div>
+                    <div class="col-sm" style="align-self: center">
+                        <p>You can see this gift from this  <br><a href="{{ rank[0].getUrl() }}" target="_blank">link</a></p>
+                    </div>
+                    <div class="col-sm" style="align-self: center;">
+                      <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+
+                    </div>
+                  </div>
+                </div>
 
 
                   <br>
@@ -67,7 +71,7 @@
                   <button class="btn btn-danger" onclick="showNegativeFeedback()">It's not perfect</button>
                   </div>
                 <div id="myDivPositiveFeedback">
-                <h2>:) Other wonderful gifts:</h2>
+                <h2>&#128522; Other wonderful gifts:</h2>
                     <br>
                     <p>{{ rank[1].getName() }}</p>
                     <p>You can see this gift from this <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
@@ -76,7 +80,7 @@
                     <p>You can see this gift from this <a href="{{ rank[-1].getUrl() }}" target="_blank">link</a> </p>
                 </div>
                   <div id="myDivNegativeFeedback">
-                <h2> :( Perhaps these gifts are better:</h2>
+                <h2> &#128542; Perhaps these gifts are better:</h2>
                     <br>
                     <p>{{ rank[1].getName() }}</p>
                     <p>You can see this gift from this <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
