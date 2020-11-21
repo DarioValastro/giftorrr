@@ -31,7 +31,7 @@ class Game:
         for g in self.gifts:
             for s in score:
                 if s.getIdGift() == g.getIdGift():
-                    print(g.getIdGift(), s.getValue() == -1)
+                    # print(g.getIdGift(), s.getValue() == -1)
                     if s.getValue() != -1:
                         tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + s.getValue()
                         tempGift.append(g)
@@ -39,6 +39,7 @@ class Game:
                         print('elimina il regalo:', g.getName(), ' perchè -1')
         self.gifts = tempGift
         self.giftsScore = tempScoreGift
+        print(self.giftsScore)
 
     def deleteDueToPrice(self, idAnswer):
         tempGifts = []

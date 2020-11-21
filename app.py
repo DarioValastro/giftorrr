@@ -50,10 +50,37 @@ class AnswerForm6(FlaskForm):
                         validators=[DataRequired()])
 
 
+class AnswerForm9(FlaskForm):
+    submit = SubmitField('CONTINUE')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                        validators=[DataRequired()])
+
+
 class AnswerForm10(FlaskForm):
     submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                         validators=[DataRequired()])
+
+
+class AnswerForm11(FlaskForm):
+    submit = SubmitField('CONTINUE')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+                        validators=[DataRequired()])
+
+
+def getFormBasedOnLength(len):
+    if len == 3:
+        return AnswerForm3(request.form)
+    elif len == 5:
+        return AnswerForm5(request.form)
+    elif len == 6:
+        return AnswerForm6(request.form)
+    elif len == 9:
+        return AnswerForm9(request.form)
+    elif len == 10:
+        return AnswerForm10(request.form)
+    elif len == 11:
+        return AnswerForm11(request.form)
 
 
 ################################################################################################
@@ -106,22 +133,24 @@ def getQuestionsFromDB():
 
 
 def finishQuestions(count):
-    if count % 4 == 0:
+    if count == 8:
         return True
     else:
         return False
 
-#TODO
-def sendPathToDB(path, countQuestion, idAnswer):
+
+# TODO
+def sendPathToDB(path, countQuestion):
     pathFinal = path + 'Q' + str(countQuestion + 1) + ':A' + str(idAnswer) + "--End"
     print(pathFinal)
 
 
-def getAswersFromDB(count):
+def getAnswersFromDB(count):
     answers = Answers.query.filter(Answers.idQuestion == count + 1)
     resAnswers = []
     for a in answers:
-        resAnswers.append(Answer(idAnswer=a.idAnswer, idQuestion=count + 1, textAnswer=a.textAnswer,textAnswerIta=a.textAnswerIta))
+        resAnswers.append(
+            Answer(idAnswer=a.idAnswer, idQuestion=count + 1, textAnswer=a.textAnswer, textAnswerIta=a.textAnswerIta))
     return resAnswers
 
 
@@ -129,7 +158,8 @@ def getGiftsFromDB():
     gifts = Gifts.query.distinct()
     resGifts = []
     for g in gifts:
-        resGifts.append(Gift(idGift=g.idGift, name=g.textGift, sustainability=g.sustainable, url=g.link, pic=g.pic,priceUL=g.priceUL, priceLL=g.priceLL, nameIta=g.textGiftIta))
+        resGifts.append(Gift(idGift=g.idGift, name=g.textGift, sustainability=g.sustainable, url=g.link, pic=g.pic,
+                             priceUL=g.priceUL, priceLL=g.priceLL, nameIta=g.textGiftIta))
     return resGifts
 
 
@@ -140,17 +170,6 @@ def getPointsFromDB(idAnswer, idQuestion):
         # print(s.idGift,s.idAnswer,s.idQuestion,s.point)
         resScore.append(Scoree(idGift=s.idGift, idQuestion=s.idQuestion, idAnswer=s.idAnswer, value=s.point))
     return resScore
-
-
-def getFormBasedOnLength(len):
-    if len == 3:
-        return AnswerForm3(request.form)
-    elif len == 5:
-        return AnswerForm5(request.form)
-    elif len == 6:
-        return AnswerForm6(request.form)
-    elif len == 10:
-        return AnswerForm10(request.form)
 
 
 # CONFIG GAME
@@ -172,6 +191,7 @@ game.initializeGiftsScore()
 @app.route('/')
 def home():
     game.refreshGame()
+    count=0
     return render_template('home.html', language='eng')
 
 
@@ -199,6 +219,7 @@ def internal_server_error(e):
 @app.route('/ita')
 def home_ita():
     game.refreshGame()
+    count=0
     return render_template('home_ita.html', language='ita')
 
 
@@ -227,8 +248,8 @@ def internal_server_error(e):
 def test():
     try:
         # Answers
-        answers = getAswersFromDB(count)
-
+        answers = getAnswersFromDB(count)
+        print(count)
         # form
         form = getFormBasedOnLength(len(answers))
 
@@ -245,18 +266,21 @@ def test():
 @app.route('/testt/<idQuestion>/<path>', methods=['GET', 'POST'])
 def testt(idQuestion=None, path=None):
     try:
-        count = int(idQuestion) + 1  # contatore idQuestion
+        print('idQuestion', idQuestion)
+        count = int(idQuestion) + 1
+        print('count ', count)
 
         # Answers
-        answers = getAswersFromDB(count)  # risposte alla domanda attuale
+        answers = getAnswersFromDB(count)  # risposte alla domanda attuale
 
         # form
         form = getFormBasedOnLength(len(answers))
 
         # add point to gifts
         idanswer = form.answer.data
-
+        print('idanswer', idanswer)
         score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
+
         if count == 3:  # è la domanda sul prezzo
             game.deleteDueToPrice(idAnswer=idanswer)
         elif count == 6:  # è la domanda sulla Sostenibilità
@@ -268,7 +292,8 @@ def testt(idQuestion=None, path=None):
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
-            sendPathToDB(path, count, form.answer.data)
+            print('idanswer', idanswer)
+            #sendPathToDB(path, count)
             game.rank()
             return render_template('result.html', rank=game.rank(), language='eng')
         else:
@@ -285,7 +310,7 @@ def testt(idQuestion=None, path=None):
 def test_ita():
     try:
         # Answers
-        answers = getAswersFromDB(count)
+        answers = getAnswersFromDB(count)
 
         # form
         form = getFormBasedOnLength(len(answers))
@@ -304,16 +329,16 @@ def test_ita():
 def testt_ita(idQuestion=None, path=None):
     try:
         count = int(idQuestion) + 1  # contatore idQuestion
-
+        print('count', count)
         # Answers
-        answers = getAswersFromDB(count)  # risposte alla domanda attuale
+        answers = getAnswersFromDB(count)  # risposte alla domanda attuale
 
         # form
         form = getFormBasedOnLength(len(answers))
 
         # add point to gifts
         idanswer = form.answer.data
-        print(idanswer)
+        print('idanswer', idanswer)
         score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
         if count == 3:  # è la domanda sul prezzo
             game.deleteDueToPrice(idAnswer=idanswer)
