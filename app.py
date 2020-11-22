@@ -109,6 +109,7 @@ class Gifts(db.Model):
     priceUL = db.Column('priceUL', db.Integer)
     priceLL = db.Column('priceLL', db.Integer)
     textGiftIta = db.Column('textGiftIta', db.String)
+    tech = db.Column('tech', db.Integer)
 
 
 class Score(db.Model):
@@ -159,7 +160,7 @@ def getGiftsFromDB():
     resGifts = []
     for g in gifts:
         resGifts.append(Gift(idGift=g.idGift, name=g.textGift, sustainability=g.sustainable, url=g.link, pic=g.pic,
-                             priceUL=g.priceUL, priceLL=g.priceLL, nameIta=g.textGiftIta))
+                             priceUL=g.priceUL, priceLL=g.priceLL, nameIta=g.textGiftIta, tech=g.tech))
     return resGifts
 
 
@@ -191,17 +192,21 @@ game.initializeGiftsScore()
 @app.route('/')
 def home():
     game.refreshGame()
-    count=0
+    count = 0
     return render_template('home.html', language='eng')
 
 
 @app.route('/contactUs/')
 def contact_Us():
+    game.refreshGame()
+    count = 0
     return render_template('contactUs.html', language='eng')
 
 
 @app.route('/aboutUs/')
 def about_Us():
+    game.refreshGame()
+    count = 0
     return render_template('aboutUs.html', language='eng')
 
 
@@ -219,17 +224,21 @@ def internal_server_error(e):
 @app.route('/ita')
 def home_ita():
     game.refreshGame()
-    count=0
+    count = 0
     return render_template('home_ita.html', language='ita')
 
 
 @app.route('/contactUs_ita/')
 def contact_Us_ita():
+    game.refreshGame()
+    count = 0
     return render_template('contactUs_ita.html', language='ita')
 
 
 @app.route('/aboutUs_ita/')
 def about_Us_ita():
+    game.refreshGame()
+    count = 0
     return render_template('aboutUs_ita.html', language='ita')
 
 
@@ -283,8 +292,10 @@ def testt(idQuestion=None, path=None):
 
         if count == 3:  # è la domanda sul prezzo
             game.deleteDueToPrice(idAnswer=idanswer)
-        elif count == 6:  # è la domanda sulla Sostenibilità
-            game.addPointSustainable(idAnswer=idanswer, score=score)
+        elif count == 5:  # è la domanda sulla Sostenibilità
+            game.addPointSustainable(score=score)
+        elif count == 7:
+            game.addPointTech(score=score)
         else:
             game.addPoint(score=score)
 
@@ -292,18 +303,19 @@ def testt(idQuestion=None, path=None):
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
-            print('idanswer', idanswer)
-            #sendPathToDB(path, count)
-            game.rank()
-            return render_template('result.html', rank=game.rank(), language='eng')
+        # print('idanswer', idanswer)
+        # sendPathToDB(path, count)
+        #    game.rank()
+             return render_template('result.html', rank=game.rank(), language='eng')
         else:
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
-                                   form=form, path=path, language='eng')
+                               form=form, path=path, language='eng')
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
+
 
 
 @app.route('/test_ita', methods=['GET', 'POST'])
@@ -342,15 +354,17 @@ def testt_ita(idQuestion=None, path=None):
         score = getPointsFromDB(idAnswer=idanswer, idQuestion=count)
         if count == 3:  # è la domanda sul prezzo
             game.deleteDueToPrice(idAnswer=idanswer)
-        elif count == 6:  # è la domanda sulla Sostenibilità
-            game.addPointSustainable(idAnswer=idanswer, score=score)
+        elif count == 5:  # è la domanda sulla Sostenibilità
+            game.addPointSustainable(score=score)
+        elif count == 7:
+            game.addPointTech(score=score)
         else:
             game.addPoint(score=score)
 
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
-            sendPathToDB(path, count, form.answer.data)
+            # sendPathToDB(path, count, form.answer.data)
             game.rank()
             return render_template('result_ita.html', rank=game.rank(), language='ita')
         else:

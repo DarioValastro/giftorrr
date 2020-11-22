@@ -45,8 +45,7 @@
 
               <main role="main" class="inner cover" style="font-size: 135%">
                   <br><br>
-                  <br><br>
-                  <h1>A perfect gift might be:</h1>
+                  <h1>Un perfetto regalo potrebbe essere:</h1>
                   <div class="container">
                   <div class="row">
                     <div class="col-sm">
@@ -54,10 +53,10 @@
 
                     </div>
                     <div class="col-sm" style="align-self: center">
-                        <p>Puoi vedere il regalo da questo <br><a href="{{ rank[0].getUrl() }}" target="_blank">link </a></p>
+                       <br> <p>Puoi vedere il regalo da questo <br><a href="{{ rank[0].getUrl() }}" target="_blank">link </a></p>
                     </div>
                     <div class="col-sm" style="align-self: center;">
-                      <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                      <br><img src="{{ rank[0].getPic() }}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
 
                     </div>
                   </div>
@@ -68,25 +67,69 @@
                   <button class="btn btn-danger" onclick="showNegativeFeedback()">It's not perfect</button>
                   </div>
                 <div id="myDivPositiveFeedback">
-                <h2>&#128522; Other wonderful gifts:</h2>
-                    <br>
-                    <p>{{ rank[1].getNameIta() }}</p>
-                    <p>Puoi vedere il regalo da questo link <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
-                    <br>
-                    <p>{{ rank[-1].getNameIta() }}</p>
-                    <p>Puoi vedere il regalo da questo <a href="{{ rank[-1].getUrl() }}" target="_blank">link</a> </p>
+                <h2>&#128522; Altri fantastici regali:</h2>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                          <h1 class="cover-heading"> <br> {{ rank[1].getNameIta() }} </h1>
+
+                        </div>
+                        <div class="col-sm" style="align-self: center">
+                            <br> <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                        </div>
+                        <div class="col-sm" style="align-self: center;">
+                          <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                          <h1 class="cover-heading"> <br> {{ rank[-1].getNameIta() }} </h1>
+
+                        </div>
+                        <div class="col-sm" style="align-self: center">
+                            <br> <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                        </div>
+                        <div class="col-sm" style="align-self: center;">
+                          <br> <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                        </div>
+                      </div>
+                  </div>
+              </div>
+                  <br>
+              <div id="myDivNegativeFeedback">
+                  <h2>&#128542; Altri potenziali regali:</h2>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                          <h1 class="cover-heading"> <br> {{ rank[1].getNameIta() }} </h1>
+
+                        </div>
+                        <div class="col-sm" style="align-self: center">
+                            <br> <p>Puoi vedere il regalo da questo   <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                        </div>
+                        <div class="col-sm" style="align-self: center;">
+                          <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                        </div>
+                      </div>
+                  </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <h1 class="cover-heading"> <br> {{ rank[-1].getNameIta() }} </h1>
+
+                    </div>
+                    <div class="col-sm" style="align-self: center">
+                        <br> <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                    </div>
+                    <div class="col-sm" style="align-self: center;">
+                      <br> <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+
+                    </div>
+                  </div>
                 </div>
-                  <div id="myDivNegativeFeedback">
-                <h2> &#128542; Forse questi regali sono meglio:</h2>
-                    <br>
-                    <p>{{ rank[1].getNameIta() }}</p>
-                    <p>Puoi vedere il regalo da questo <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
-                      <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="25%" height="25%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/>
-                          <image href="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" x="0" y="0" height="100%" width="100%"/></svg>
-                    <br>
-                    <p>{{ rank[-1].getNameIta()  }}</p>
-                    <p>Puoi vedere il regalo da questo <a href="{{ rank[-1].getUrl()  }}" target="_blank">link</a> </p>
-                </div>
+              </div>
               </main>
 
     {% include 'module/footer.html' %}

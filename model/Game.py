@@ -33,13 +33,14 @@ class Game:
                 if s.getIdGift() == g.getIdGift():
                     # print(g.getIdGift(), s.getValue() == -1)
                     if s.getValue() != -1:
-                        tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + s.getValue()
+                        tempPoint = self.giftsScore[g.getIdGift()]
+                        tempScoreGift[g.getIdGift()] = tempPoint + s.getValue()
                         tempGift.append(g)
                     elif s.getValue() == -1:
                         print('elimina il regalo:', g.getName(), ' perchè -1')
         self.gifts = tempGift
         self.giftsScore = tempScoreGift
-        print(self.giftsScore)
+        print('Add point',self.giftsScore)
 
     def deleteDueToPrice(self, idAnswer):
         tempGifts = []
@@ -104,13 +105,13 @@ class Game:
         first_point = 0
         first_position = Gift(idGift=9997, name="We have not a gift for you", sustainability=0,
                               url='https://www.google.com/', pic='', priceUL=0, priceLL=500,
-                              nameIta='Non abbiamo un regalo per te')
+                              nameIta='Non abbiamo un regalo per te',tech=0)
         second_position = Gift(idGift=9999, name="We have not a gift for you", sustainability=0,
                                url='https://www.google.com/', pic='', priceUL=0, priceLL=500,
-                               nameIta='Non abbiamo un regalo per te')
+                               nameIta='Non abbiamo un regalo per te',tech=0)
         third_position = Gift(idGift=9998, name="We have not a gift for you", sustainability=0,
                               url='https://www.google.com/', pic='', priceUL=0, priceLL=500,
-                              nameIta='Non abbiamo un regalo per te')
+                              nameIta='Non abbiamo un regalo per te',tech=0)
         print('first final rank', self.finalRank)
         for g in self.giftsScore:
             if first_step:
@@ -140,9 +141,9 @@ class Game:
         if len(self.finalRank) == 0:
             return [first_position, second_position, third_position]
         id_first_gift = random.choice(self.finalRank)
-        print('idregalo', id_first_gift)
+        print('First position idregalo', id_first_gift)
         first_position = self.giftNames[id_first_gift]
-        print('regalo', first_position.getName())
+        print('First position regalo', first_position.getName())
         self.finalRank.remove(id_first_gift)  # remove first gift
         print('tolto?', self.finalRank)
         print('lunghezza', len(self.finalRank))
@@ -152,7 +153,7 @@ class Game:
             second_position = self.giftNames[id_second_gift]  # second position
             print('regalo', second_position.getName())
             self.finalRank.remove(id_second_gift)  # remove second gift
-            if len(self.finalRankSecond)>=1:
+            if len(self.finalRankSecond) >= 1:
                 id_third_gift = random.choice(self.finalRankSecond)  # take a random gift from final rank
                 print('idgift random', id_third_gift)
                 third_position = self.giftNames[id_third_gift]  # third position
@@ -166,8 +167,11 @@ class Game:
             elif len(self.finalRankSecond) > 1:
                 id_second_gift = random.choice(self.finalRankSecond)
                 second_position = self.giftNames[id_second_gift]  # second position
+                self.finalRankSecond.remove(id_second_gift)
+                print('second position',second_position.getName())
                 id_third_gift = random.choice(self.finalRankSecond)
                 third_position = self.giftNames[id_third_gift]  # third position
+                print('third position', third_position.getName())
         elif len(self.finalRank) > 1:
             id_second_gift = random.choice(self.finalRank)
             print('idgift second random', id_second_gift)
@@ -184,6 +188,35 @@ class Game:
         print(perPrint)
         return final_res
 
-    # TODO
-    def addPointSustainable(self, idAnswer, score):
-        pass
+    def addPointSustainable(self, score):
+        tempGift = []
+        tempScoreGift = {}
+        for g in self.gifts:
+            for s in score:
+                if s.getIdGift() == g.getIdGift() and g.isSuistainable():
+                    if s.getValue() < 3: # perchè non penalizziamo i regali sostenibili!
+                        tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + 3
+                    else:
+                        tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + s.getValue()
+                    tempGift.append(g)
+                elif s.getIdGift() == g.getIdGift():
+                    tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + 3
+                    tempGift.append(g)
+        self.gifts = tempGift
+        self.giftsScore = tempScoreGift
+        print('After question suistainable',self.giftsScore)
+
+    def addPointTech(self, score):
+        tempGift = []
+        tempScoreGift = {}
+        for g in self.gifts:
+            for s in score:
+                if s.getIdGift() == g.getIdGift() and g.isTech():
+                    tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + s.getValue()
+                    tempGift.append(g)
+                elif s.getIdGift() == g.getIdGift():
+                    tempScoreGift[g.getIdGift()] = self.giftsScore[g.getIdGift()] + 3
+                    tempGift.append(g)
+        self.gifts = tempGift
+        self.giftsScore = tempScoreGift
+        print('After question tech',self.giftsScore)

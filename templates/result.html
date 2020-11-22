@@ -46,7 +46,6 @@
 
               <main role="main" class="inner cover" style="font-size: 135%">
                   <br><br>
-                  <br><br>
                   <h1>A perfect gift might be:</h1>
                  <div class="container">
                   <div class="row">
@@ -58,7 +57,7 @@
                         <p>You can see this gift from this  <br><a href="{{ rank[0].getUrl() }}" target="_blank">link</a></p>
                     </div>
                     <div class="col-sm" style="align-self: center;">
-                      <img src="https://www.3bee.it/2020/images/adotta/video-thumb-desktop.jpg" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                      <img src="{{ rank[0].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
 
                     </div>
                   </div>
@@ -70,25 +69,72 @@
                       <button class="btn btn-success" onclick="showPositiveFeedback()">It's perfect</button>
                   <button class="btn btn-danger" onclick="showNegativeFeedback()">It's not perfect</button>
                   </div>
-                <div id="myDivPositiveFeedback">
+
+              <div id="myDivPositiveFeedback">
                 <h2>&#128522; Other wonderful gifts:</h2>
-                    <br>
-                    <p>{{ rank[1].getName() }}</p>
-                    <p>You can see this gift from this <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
-                    <br>
-                    <p>{{ rank[-1].getName() }}</p>
-                    <p>You can see this gift from this <a href="{{ rank[-1].getUrl() }}" target="_blank">link</a> </p>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                          <h1 class="cover-heading"> <br> {{ rank[1].getName() }} </h1>
+
+                        </div>
+                        <div class="col-sm" style="align-self: center">
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                        </div>
+                        <div class="col-sm" style="align-self: center;">
+                          <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                          <h1 class="cover-heading"> <br> {{ rank[-1].getName() }} </h1>
+
+                        </div>
+                        <div class="col-sm" style="align-self: center">
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                        </div>
+                        <div class="col-sm" style="align-self: center;">
+                          <br>  <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                        </div>
+                      </div>
+                  </div>
+              </div>
+                  <br>
+              <div id="myDivNegativeFeedback">
+                  <h2>&#128542; Other potential gifts:</h2>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                          <h1 class="cover-heading"> <br> {{ rank[1].getName() }} </h1>
+
+                        </div>
+                        <div class="col-sm" style="align-self: center">
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                        </div>
+                        <div class="col-sm" style="align-self: center;">
+                          <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                        </div>
+                      </div>
+                  </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <h1 class="cover-heading"> <br> {{ rank[-1].getName() }} </h1>
+
+                    </div>
+                    <div class="col-sm" style="align-self: center">
+                       <br>  <p>You can see this gift from this  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                    </div>
+                    <div class="col-sm" style="align-self: center;">
+                      <br> <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+
+                    </div>
+                  </div>
                 </div>
-                  <div id="myDivNegativeFeedback">
-                <h2> &#128542; Perhaps these gifts are better:</h2>
-                    <br>
-                    <p>{{ rank[1].getName() }}</p>
-                    <p>You can see this gift from this <a href="{{ rank[1].getUrl() }}" target="_blank">link</a> </p>
-                    <br>
-                    <p>{{ rank[-1].getName()  }}</p>
-                    <p>You can see this gift from this <a href="{{ rank[-1].getUrl()  }}" target="_blank">link</a> </p>
-                </div>
-              </main>
+              </div>
+    </main>
 
     {% include 'module/footer.html' %}
      </div>

@@ -1,5 +1,5 @@
 class Gift:
-    def __init__(self, idGift, name, sustainability, url, pic, priceUL, priceLL, nameIta):
+    def __init__(self, idGift, name, sustainability, url, pic, priceUL, priceLL, nameIta,tech):
         self.idGift = idGift
         self.name = name
         self.sustainability = sustainability
@@ -8,6 +8,7 @@ class Gift:
         self.priceUL = priceUL
         self.priceLL = priceLL
         self.nameIta = nameIta
+        self.tech = tech
 
     def getIdGift(self):
         return self.idGift
@@ -18,8 +19,17 @@ class Gift:
     def getNameIta(self):
         return self.nameIta
 
-    def getSustainability(self):
-        return self.sustainability
+    def isSuistainable(self):
+        if self.sustainability == 0:
+            return False
+        else:
+            return True
+
+    def isTech(self):
+        if self.tech == 0:
+            return False
+        else:
+            return True
 
     def getUrl(self):
         return self.url
