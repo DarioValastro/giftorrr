@@ -12,6 +12,7 @@ class Game:
         self.finalRank = []
         self.finalRankSecond = []
         self.finalRankThird = []
+        self.final_res_rank = []
 
     def getQuestions(self):
         return self.questions
@@ -139,7 +140,8 @@ class Game:
         print('second final rank', self.finalRankSecond)
         print('third final rank', self.finalRankThird)
         if len(self.finalRank) == 0:
-            return [first_position, second_position, third_position]
+            self.final_res_rank = [first_position, second_position, third_position]
+            return self.final_res_rank
         id_first_gift = random.choice(self.finalRank)
         print('First position idregalo', id_first_gift)
         first_position = self.giftNames[id_first_gift]
@@ -183,10 +185,10 @@ class Game:
             third_position = self.giftNames[id_third_gift]  # third position
             self.finalRank.remove(id_third_gift)
 
-        final_res = [first_position, second_position, third_position]
+        self.final_res_rank = [first_position, second_position, third_position]
         perPrint = [first_position.getName(), second_position.getName(), third_position.getName()]
         print(perPrint)
-        return final_res
+        return self.final_res_rank
 
     def addPointSustainable(self, score):
         tempGift = []
@@ -220,3 +222,6 @@ class Game:
         self.gifts = tempGift
         self.giftsScore = tempScoreGift
         print('After question tech',self.giftsScore)
+
+    def getRank(self):
+        return self.final_res_rank

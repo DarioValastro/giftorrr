@@ -9,7 +9,6 @@ from model.Game import Game
 from model.Gift import Gift
 from model.Question import Question
 from model.Score import Scoree
-
 from flask_mail import Message, Mail
 
 
@@ -26,7 +25,8 @@ params = urllib.parse.quote_plus(
     '1433;Database=giftor;Uid=amministratore;Pwd=9RLxFv1t3IVbRoJL;Encrypt=yes;')
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path for the database, ho installato dal terminal pymysql per farlo funzionare
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path
+# for the database, ho installato dal terminal pymysql per farlo funzionare
 app.config[
     'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True  # set to True to enable automatic commits of database changes at the end
 # of each request.
@@ -47,6 +47,12 @@ class AnswerForm5(FlaskForm):
     submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3', '4', '5'],
                         validators=[DataRequired()])
+
+
+class FormFeedback(FlaskForm):
+    finish = SubmitField('FINISH')
+    feedback = RadioField('Feedback', choices=['1', '2', '3', '4', '5'],
+                          validators=[DataRequired()])
 
 
 class AnswerForm6(FlaskForm):
@@ -73,18 +79,18 @@ class AnswerForm11(FlaskForm):
                         validators=[DataRequired()])
 
 
-def getFormBasedOnLength(len):
-    if len == 3:
+def getFormBasedOnLength(length):
+    if length == 3:
         return AnswerForm3(request.form)
-    elif len == 5:
+    elif length == 5:
         return AnswerForm5(request.form)
-    elif len == 6:
+    elif length == 6:
         return AnswerForm6(request.form)
-    elif len == 9:
+    elif length == 9:
         return AnswerForm9(request.form)
-    elif len == 10:
+    elif length == 10:
         return AnswerForm10(request.form)
-    elif len == 11:
+    elif length == 11:
         return AnswerForm11(request.form)
 
 
@@ -147,8 +153,9 @@ def finishQuestions(count):
 
 # TODO
 def sendPathToDB(path, countQuestion):
-    pathFinal = path + 'Q' + str(countQuestion + 1) + ':A' + str(idAnswer) + "--End"
-    print(pathFinal)
+    # pathFinal = path + 'Q' + str(countQuestion + 1) + ':A' + str(idAnswer) + "--End"
+    # print(pathFinal)
+    pass
 
 
 def getAnswersFromDB(count):
@@ -298,16 +305,6 @@ def about_Us_ita():
     return render_template('aboutUs_ita.html', language='ita')
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404_ita.html', language='ita')
-
-
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template('500_ita.html', language='ita')
-
-
 # PRIMA ROUTE DOMANDE
 @app.route('/test', methods=['GET', 'POST'])
 def test():
@@ -355,23 +352,41 @@ def testt(idQuestion=None, path=None):
         else:
             game.addPoint(score=score)
 
-        # print(form.answer.data)
+
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
-        # print('idanswer', idanswer)
-        # sendPathToDB(path, count)
-        #    game.rank()
-             return render_template('result.html', rank=game.rank(), language='eng')
+            # print('idanswer', idanswer)
+            # TODO sendPathToDB(path, count)
+
+            formFeedback = FormFeedback(request.form)
+            return render_template('result.html', rank=game.rank(), language='eng', formFeedback=formFeedback,
+                                   feedback_done=False, finishQuestion=True)
         else:
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
-                               form=form, path=path, language='eng')
+                                   form=form, path=path, language='eng')
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
 
+
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+    try:
+        formFeedback = FormFeedback(request.form)
+        feedback = formFeedback.feedback.data
+        print("The feedback is:   ",str(feedback))
+        feedback2 = request.form['feedback']
+        print("The feedback2 is:   ", str(feedback2))
+        return render_template('result.html', rank=game.getRank(), language='eng', formFeedback=formFeedback,
+                               feedback_done=True)
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
 
 
 @app.route('/test_ita', methods=['GET', 'POST'])
@@ -422,10 +437,28 @@ def testt_ita(idQuestion=None, path=None):
         if finishQuestions(count):
             # sendPathToDB(path, count, form.answer.data)
             game.rank()
-            return render_template('result_ita.html', rank=game.rank(), language='ita')
+            return render_template('result_ita.html', rank=game.rank(), language='ita',
+                                   form=FormFeedback(request.form))
         else:
             return render_template('test_ita.html', questions=game.questions, counterQuestion=count, answers=answers,
                                    form=form, path=path, language='ita')
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
+
+
+@app.route('/resultIta', methods=['GET', 'POST'])
+def resultIta():
+    try:
+        formFeedback = FormFeedback(request.form)
+        feedback = formFeedback.feedback.data
+        print("The feedback is:   ", str(feedback))
+        feedback2 = request.form['feedback']
+        print("The feedback2 is:   ", str(feedback2))
+        return render_template('result_ita.html', rank=game.getRank(), language='ita', formFeedback=formFeedback,
+                               feedback_done=True)
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"

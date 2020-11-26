@@ -5,16 +5,60 @@
 {% include 'module/social_bar.html' %}
     <style type="text/css">
 
-        #myDivPositiveFeedback{
+        #myDivTransparent{
             display: none;
         }
 
-        #myDivNegativeFeedback{
-            display: none;
-        }
-
-        #myDivButtonFeedBack{
+        #myDivVisible{
             display: block;
+        }
+
+
+        .rating{
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%) rotateY(180deg);
+            display: flex;
+
+        }
+
+        .rating input{
+            display: none;
+        }
+
+        .rating label{
+            display: block;
+            cursor: pointer;
+            width: 50px;
+            background: #ccc;
+
+        }
+
+        .rating label:before {
+             content: '\f005';
+             font-family: fontAwesome;
+             position: relative;
+             display: block;
+             font-size: 50px;
+             color: #101010;
+
+        }
+        .rating label:after {
+             content: '\f005';
+             font-family: fontAwesome;
+             position: absolute;
+             display: block;
+             font-size: 50px;
+             color: #ffd438;
+             top: 0;
+             opacity: 0;
+             transition: .5s;
+             text-shadow: 0 2px 5px rgba(0,0,0,.5);
+
+        }
+
+        .rating label:hover:after, .rating label:hover~label:after ,.rating input:checked ~ label:after{
+            opacity: 1;
         }
 
     </style>
@@ -61,13 +105,32 @@
                     </div>
                   </div>
                 </div>
-                  <br>
-                  <div id="myDivButtonFeedBack">
-                      <button class="btn btn-success" onclick="showPositiveFeedback()">It's perfect</button>
-                  <button class="btn btn-danger" onclick="showNegativeFeedback()">It's not perfect</button>
-                  </div>
-                <div id="myDivPositiveFeedback">
-                <h2>&#128522; Altri fantastici regali:</h2>
+                  <br> <!-- TODO fai per italiano il feedback a stelle-->
+                 {{ form.csrf }}
+                {{ form.hidden_tag() }}
+                 <div class="container" id="{% if feedback_done %}{{ "myDivTransparent" }}{% else %}{{ "myDivVisible" }}{% endif %}">
+                        <div class="rating" style="align-self: center">
+                                    <input type="radio" name="feedback" id="star1" value="5">
+                                    <label for="star1"></label>
+
+                                    <input type="radio" name="feedback" id="star2" value="4">
+                                    <label for="star2"></label>
+
+                                    <input type="radio" name="feedback" id="star3" value="3">
+                                    <label for="star3"></label>
+
+                                    <input type="radio" name="feedback" id="star4" value="2">
+                                    <label for="star4"></label>
+
+                                    <input type="radio" name="feedback" id="star5" value="1">
+                                    <label for="star5"></label>
+                        </div>
+                      <a href="{{ url_for('resultIta',rank=rank) }}"  role="button"> {{ form.submit(class='btn btn-danger')  }}</a>
+                </div>
+                  <br><br><br>
+
+              <div id="{% if feedback_done %}{{ "myDivVisible" }}{% else %}{{ "myDivTransparent" }}{% endif %}">
+                <h2>&#128522; Altri regali stupendi:</h2>
                   <div class="container">
                       <div class="row">
                         <div class="col-sm">
@@ -75,7 +138,7 @@
 
                         </div>
                         <div class="col-sm" style="align-self: center">
-                            <br> <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
                         </div>
                         <div class="col-sm" style="align-self: center;">
                           <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
@@ -89,47 +152,18 @@
 
                         </div>
                         <div class="col-sm" style="align-self: center">
-                            <br> <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
                         </div>
                         <div class="col-sm" style="align-self: center;">
-                          <br> <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
+                          <br>  <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
                         </div>
                       </div>
                   </div>
               </div>
-                  <br>
-              <div id="myDivNegativeFeedback">
-                  <h2>&#128542; Altri potenziali regali:</h2>
-                  <div class="container">
-                      <div class="row">
-                        <div class="col-sm">
-                          <h1 class="cover-heading"> <br> {{ rank[1].getNameIta() }} </h1>
 
-                        </div>
-                        <div class="col-sm" style="align-self: center">
-                            <br> <p>Puoi vedere il regalo da questo   <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
-                        </div>
-                        <div class="col-sm" style="align-self: center;">
-                          <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
-                        </div>
-                      </div>
-                  </div>
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm">
-                      <h1 class="cover-heading"> <br> {{ rank[-1].getNameIta() }} </h1>
 
-                    </div>
-                    <div class="col-sm" style="align-self: center">
-                        <br> <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
-                    </div>
-                    <div class="col-sm" style="align-self: center;">
-                      <br> <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
 
-                    </div>
-                  </div>
-                </div>
-              </div>
+
               </main>
 
     {% include 'module/footer.html' %}
