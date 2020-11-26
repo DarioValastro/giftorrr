@@ -11,8 +11,6 @@ from model.Question import Question
 from model.Score import Scoree
 from flask_mail import Message, Mail
 
-
-
 # CONFIG APP
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
@@ -22,13 +20,13 @@ mail = Mail(app)
 # CONFIG DB
 params = urllib.parse.quote_plus(
     'Driver={SQL Server};Server=tcp:giftor.database.windows.net,'
-    '1433;Database=giftor;Uid=amministratore;Pwd='+os.environ['Pass_db']+';Encrypt=yes;')
+    '1433;Database=giftor;Uid=amministratore;Pwd=' + os.environ['Pass_db'] + ';Encrypt=yes;')
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path
 # for the database, ho installato dal terminal pymysql per farlo funzionare
 app.config[
-    'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True  # set to True to enable automatic commits of database changes at the end
+    'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = False  # set to True to enable automatic commits of database changes at the end
 # of each request.
 app.config[
     'SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # per evitare l'errore esplicitato in questo link:
@@ -36,7 +34,7 @@ app.config[
 db = SQLAlchemy(app)  # create DB
 
 
-# FORMS
+# FORMS English
 class AnswerForm3(FlaskForm):
     submit = SubmitField('CONTINUE')
     answer = RadioField('Answer', choices=['1', '2', '3'],
@@ -50,7 +48,7 @@ class AnswerForm5(FlaskForm):
 
 
 class FormFeedback(FlaskForm):
-    finish = SubmitField('FINISH')
+    finish = SubmitField('Send feedback and discover a surprise')
     feedback = RadioField('Feedback', choices=['1', '2', '3', '4', '5'],
                           validators=[DataRequired()])
 
@@ -96,12 +94,78 @@ def getFormBasedOnLength(length):
 
 ################################################################################################
 
+# FORMS Ita
+class AnswerFormIta3(FlaskForm):
+    submit = SubmitField('CONTINUA')
+    answer = RadioField('Answer', choices=['1', '2', '3'],
+                        validators=[DataRequired()])
+
+
+class AnswerFormIta5(FlaskForm):
+    submit = SubmitField('CONTINUA')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5'],
+                        validators=[DataRequired()])
+
+
+class FormFeedbackIta(FlaskForm):
+    finish = SubmitField('Invia la valutazione e scopri una sorpresa')
+    feedback = RadioField('Feedback', choices=['1', '2', '3', '4', '5'],
+                          validators=[DataRequired()])
+
+
+class AnswerFormIta6(FlaskForm):
+    submit = SubmitField('CONTINUA')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6'],
+                        validators=[DataRequired()])
+
+
+class AnswerFormIta9(FlaskForm):
+    submit = SubmitField('CONTINUA')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                        validators=[DataRequired()])
+
+
+class AnswerFormIta10(FlaskForm):
+    submit = SubmitField('CONTINUA')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                        validators=[DataRequired()])
+
+
+class AnswerFormIta11(FlaskForm):
+    submit = SubmitField('CONTINUA')
+    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+                        validators=[DataRequired()])
+
+
+def getFormBasedOnLengthIta(length):
+    if length == 3:
+        return AnswerFormIta3(request.form)
+    elif length == 5:
+        return AnswerFormIta5(request.form)
+    elif length == 6:
+        return AnswerFormIta6(request.form)
+    elif length == 9:
+        return AnswerFormIta9(request.form)
+    elif length == 10:
+        return AnswerFormIta10(request.form)
+    elif length == 11:
+        return AnswerFormIta11(request.form)
+
+
+##############################
 
 # CLASS DB
 class Questions(db.Model):
     idQuestion = db.Column('idQuestion', db.Integer, primary_key=True)
     textQuestion = db.Column('textQuestion', db.String)
     textQuestionIta = db.Column('textQuestionIta', db.String)
+
+
+class Questionnaires(db.Model):
+    idQuiz = db.Column('idQuiz', db.Integer, primary_key=True, autoincrement=False)
+    pathQuiz = db.Column('pathQuiz', db.String)
+    rankGifts = db.Column('rankGifts', db.String)
+    feedback = db.Column('feedback', db.Integer)
 
 
 class Answers(db.Model):
@@ -152,9 +216,26 @@ def finishQuestions(count):
 
 
 # TODO
-def sendPathToDB(path, countQuestion):
-    # pathFinal = path + 'Q' + str(countQuestion + 1) + ':A' + str(idAnswer) + "--End"
-    # print(pathFinal)
+def sendPathToDB(path, rank):
+    countQuiz = Questionnaires.query.count()
+    countQuiz = countQuiz + 1
+    rankGifts = ''
+    for r in rank:
+        rankGifts = rankGifts + "--" + r.getName() + "[" + str(r.getIdGift()) + "]"
+    # print("rank gifts is     ", rankGifts)
+    quiz = Questionnaires(idQuiz=countQuiz, pathQuiz=path, rankGifts=rankGifts, feedback=0)
+    db.session.add(quiz)
+    db.session.commit()
+    return countQuiz
+
+
+def sendFeedbackToDB(feedback, lastId):
+    feedbackInt = int(feedback)
+    print('the feedback is  ', feedbackInt)
+    print('the last id is ', lastId)
+    quiz = Questionnaires.query.filter(Questionnaires.idQuiz == lastId)
+    quiz[0].feedback = feedback
+    db.session.commit()
     pass
 
 
@@ -210,7 +291,6 @@ def home():
 
 @app.route('/contactUs/')
 def contact_Us():
-
     game.refreshGame()
     count = 0
     return render_template('contactUs.html', language='eng')
@@ -226,9 +306,9 @@ def send_message_eng():
     if request.method == "POST":
         email = request.form['email']
         subject = request.form['subject']
-        #print("here sub" +subject)
+        # print("here sub" +subject)
         msg = request.form['message']
-        body = subject +"\n "+  "Email: \n " + email + "\n" + "Text: \n" +msg
+        body = subject + "\n " + "Email: \n " + email + "\n" + "Text: \n" + msg
 
         smtplibObj.sendmail("ISProject.GIFTOR2020@gmail.com", "ISProject.GIFTOR2020@gmail.com", body)
         smtplibObj.quit()
@@ -238,7 +318,6 @@ def send_message_eng():
         return render_template("email_success.html", success=success)
     elif request.method == "GET":
         return render_template("email_success.html")
-
 
 
 @app.route('/aboutUs/')
@@ -273,8 +352,6 @@ def contact_Us_ita():
     return render_template('contactUs_ita.html', language='ita')
 
 
-
-
 @app.route('/send_message', methods=["POST", "GET"])
 def send_message():
     smtplibObj = smtplib.SMTP("smtp.gmail.com", 587)
@@ -285,9 +362,9 @@ def send_message():
     if request.method == "POST":
         email = request.form['email']
         subject = request.form['subject']
-        #print("here sub" +subject)
+        # print("here sub" +subject)
         msg = request.form['message']
-        body = subject +"\n "+  "Email: \n " + email + "\n" + "Text: \n" +msg
+        body = subject + "\n " + "Email: \n " + email + "\n" + "Text: \n" + msg
 
         smtplibObj.sendmail("ISProject.GIFTOR2020@gmail.com", "ISProject.GIFTOR2020@gmail.com", body)
         smtplibObj.quit()
@@ -353,16 +430,17 @@ def testt(idQuestion=None, path=None):
         else:
             game.addPoint(score=score)
 
-
         path = path + "Q" + str(count) + ":A" + str(idanswer) + "--"
 
         if finishQuestions(count):
             # print('idanswer', idanswer)
-            # TODO sendPathToDB(path, count)
+            print('il path è     ', path)
+            rank = game.rank()
+            lastId = sendPathToDB(path, rank)
 
             formFeedback = FormFeedback(request.form)
-            return render_template('result.html', rank=game.rank(), language='eng', formFeedback=formFeedback,
-                                   feedback_done=False, finishQuestion=True)
+            return render_template('result.html', rank=rank, language='eng', formFeedback=formFeedback,
+                                   feedback_done=False, finishQuestion=True, lastId=lastId)
         else:
             return render_template('test.html', questions=game.questions, counterQuestion=count, answers=answers,
                                    form=form, path=path, language='eng')
@@ -373,14 +451,15 @@ def testt(idQuestion=None, path=None):
         return hed + error_text
 
 
-@app.route('/result', methods=['GET', 'POST'])
-def result():
+@app.route('/result/<lastId>', methods=['GET', 'POST'])
+def result(lastId):
     try:
         formFeedback = FormFeedback(request.form)
-        feedback = formFeedback.feedback.data
-        print("The feedback is:   ",str(feedback))
-        feedback2 = request.form['feedback']
-        print("The feedback2 is:   ", str(feedback2))
+        # feedback = formFeedback.feedback.data
+        # print("The feedback is:   ", str(feedback))
+        feedback = request.form['feedback']
+        print("The feedback is:   ", str(feedback))
+        sendFeedbackToDB(feedback, lastId)
         return render_template('result.html', rank=game.getRank(), language='eng', formFeedback=formFeedback,
                                feedback_done=True)
     except Exception as e:
@@ -397,7 +476,7 @@ def test_ita():
         answers = getAnswersFromDB(count)
 
         # form
-        form = getFormBasedOnLength(len(answers))
+        form = getFormBasedOnLengthIta(len(answers))
 
         return render_template('test_ita.html', questions=game.questions, counterQuestion=count, answers=answers,
                                form=form, path=path, language='ita')
@@ -418,7 +497,7 @@ def testt_ita(idQuestion=None, path=None):
         answers = getAnswersFromDB(count)  # risposte alla domanda attuale
 
         # form
-        form = getFormBasedOnLength(len(answers))
+        form = getFormBasedOnLengthIta(len(answers))
 
         # add point to gifts
         idanswer = form.answer.data
@@ -437,9 +516,11 @@ def testt_ita(idQuestion=None, path=None):
 
         if finishQuestions(count):
             # sendPathToDB(path, count, form.answer.data)
-            game.rank()
-            return render_template('result_ita.html', rank=game.rank(), language='ita',
-                                   form=FormFeedback(request.form))
+            print('il path è     ', path)
+            rank = game.rank()
+            lastId = sendPathToDB(path, rank)
+            return render_template('result_ita.html', rank=rank, language='ita', lastId=lastId,
+                                   formFeedback=FormFeedbackIta(request.form), feedback_done=False)
         else:
             return render_template('test_ita.html', questions=game.questions, counterQuestion=count, answers=answers,
                                    form=form, path=path, language='ita')
@@ -450,14 +531,15 @@ def testt_ita(idQuestion=None, path=None):
         return hed + error_text
 
 
-@app.route('/resultIta', methods=['GET', 'POST'])
-def resultIta():
+@app.route('/resultIta/<lastId>', methods=['GET', 'POST'])
+def resultIta(lastId):
     try:
-        formFeedback = FormFeedback(request.form)
-        feedback = formFeedback.feedback.data
+        formFeedback = FormFeedbackIta(request.form)
+        # feedback = formFeedback.feedback.data
+        # print("The feedback is:   ", str(feedback))
+        feedback = request.form['feedback']
         print("The feedback is:   ", str(feedback))
-        feedback2 = request.form['feedback']
-        print("The feedback2 is:   ", str(feedback2))
+        sendFeedbackToDB(feedback, lastId)
         return render_template('result_ita.html', rank=game.getRank(), language='ita', formFeedback=formFeedback,
                                feedback_done=True)
     except Exception as e:
