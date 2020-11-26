@@ -1,0 +1,20 @@
+{% include 'module/head.html' %}
+{% include 'module/social_bar.html' %}
+
+<link href="../static/stylesheets/email_success.css" rel="stylesheet">
+
+<body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;">
+
+    <header>
+        {% include 'module/navbar_ita.html' %}
+    </header>
+
+    <div class="messagge" id="message">
+        <h1 style="color: #f8f9fa">{{ success }}</h1>
+        <a href="/home_ita" class="btn btn-danger" style="width: 50%">Vai alla home</a>
+    </div>
+
+</body>

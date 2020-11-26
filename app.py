@@ -1,4 +1,4 @@
-import urllib
+import urllib, smtplib, os
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm  # FORM
@@ -10,10 +10,15 @@ from model.Gift import Gift
 from model.Question import Question
 from model.Score import Scoree
 
+from flask_mail import Message, Mail
+
+
+
 # CONFIG APP
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.debug = True
+mail = Mail(app)
 
 # CONFIG DB
 params = urllib.parse.quote_plus(
@@ -198,9 +203,34 @@ def home():
 
 @app.route('/contactUs/')
 def contact_Us():
+
     game.refreshGame()
     count = 0
     return render_template('contactUs.html', language='eng')
+
+@app.route('/send_message_eng', methods=["POST", "GET"])
+def send_message_eng():
+    smtplibObj = smtplib.SMTP("smtp.gmail.com", 587)
+    smtplibObj.ehlo()
+    smtplibObj.starttls()
+    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", os.environ['Pass_GMAIL'])
+
+    if request.method == "POST":
+        email = request.form['email']
+        subject = request.form['subject']
+        print("here sub" +subject)
+        msg = request.form['message']
+        body = subject +"\n "+  "Email: \n " + email + "\n" + "Text: \n" +msg
+
+        smtplibObj.sendmail("ISProject.GIFTOR2020@gmail.com", "ISProject.GIFTOR2020@gmail.com", body)
+        smtplibObj.quit()
+
+        success = "Message sent"
+
+        return render_template("email_success.html", success=success)
+    elif request.method == "GET":
+        return render_template("email_success.html")
+
 
 
 @app.route('/aboutUs/')
@@ -233,6 +263,32 @@ def contact_Us_ita():
     game.refreshGame()
     count = 0
     return render_template('contactUs_ita.html', language='ita')
+
+
+
+
+@app.route('/send_message', methods=["POST", "GET"])
+def send_message():
+    smtplibObj = smtplib.SMTP("smtp.gmail.com", 587)
+    smtplibObj.ehlo()
+    smtplibObj.starttls()
+    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", os.environ['Pass_GMAIL'])
+
+    if request.method == "POST":
+        email = request.form['email']
+        subject = request.form['subject']
+        print("here sub" +subject)
+        msg = request.form['message']
+        body = subject +"\n "+  "Email: \n " + email + "\n" + "Text: \n" +msg
+
+        smtplibObj.sendmail("ISProject.GIFTOR2020@gmail.com", "ISProject.GIFTOR2020@gmail.com", body)
+        smtplibObj.quit()
+
+        success = "Messaggio spedito"
+
+        return render_template("email_success_ita.html", success=success)
+    elif request.method == "GET":
+        return render_template("email_success_ita.html")
 
 
 @app.route('/aboutUs_ita/')

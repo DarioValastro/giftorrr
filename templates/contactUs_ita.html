@@ -17,7 +17,7 @@
                 <div class="contact-image">
                     <img src="/static/img/gift.jpg" />
                 </div>
-                <form method="post">
+                <form action="{{ url_for('send_message') }}" method="post">
                     <h3 style="color: #721c24">Inviaci un messaggio, risponderemo il più velocemente possibile</h3>
                    <div class="row">
                         <div class="col-md-6">
@@ -25,11 +25,11 @@
                                 <input type="text" name="txtName" class="form-control" placeholder="Il tuo nome *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" name="txtEmail" class="form-control" placeholder="La tua mail *" value="" />
+                                <input type="email" name="email" class="form-control" placeholder="La tua mail *" value="" />
                             </div>
                             <div class="form-group">
-                                <label for="country">Che succede?</label>
-                                <select class="custom-select d-block w-100" id="country" required>
+                                <label for="subject">Che succede?</label>
+                                <select class="custom-select d-block w-100" id="subject" name="subject" required>
                                   <option value="">Problemi con il sito?</option>
                                   <option>Lasciare una recensione</option>
                                   <option>Proporre regali</option>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <textarea name="txtMsg" class="form-control" placeholder="Messaggio *" style="width: 130%; height: 280px;"></textarea>
+                                <textarea name="message" class="form-control" placeholder="Messaggio *" style="width: 130%; height: 280px;"></textarea>
                             </div>
                         </div>
                     </div>
