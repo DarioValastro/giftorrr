@@ -22,7 +22,7 @@ mail = Mail(app)
 # CONFIG DB
 params = urllib.parse.quote_plus(
     'Driver={SQL Server};Server=tcp:giftor.database.windows.net,'
-    '1433;Database=giftor;Uid=amministratore;Pwd=9RLxFv1t3IVbRoJL;Encrypt=yes;')
+    '1433;Database=giftor;Uid=amministratore;Pwd='+os.environ['Pass_db']+';Encrypt=yes;')
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path
@@ -221,12 +221,12 @@ def send_message_eng():
     smtplibObj = smtplib.SMTP("smtp.gmail.com", 587)
     smtplibObj.ehlo()
     smtplibObj.starttls()
-    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", 'sdpiihfqogybvuyh')
+    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", os.environ['Pass_gmail'])
 
     if request.method == "POST":
         email = request.form['email']
         subject = request.form['subject']
-        print("here sub" +subject)
+        #print("here sub" +subject)
         msg = request.form['message']
         body = subject +"\n "+  "Email: \n " + email + "\n" + "Text: \n" +msg
 
@@ -280,12 +280,12 @@ def send_message():
     smtplibObj = smtplib.SMTP("smtp.gmail.com", 587)
     smtplibObj.ehlo()
     smtplibObj.starttls()
-    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", os.environ['Pass_GMAIL'])
+    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", os.environ['Pass_gmail'])
 
     if request.method == "POST":
         email = request.form['email']
         subject = request.form['subject']
-        print("here sub" +subject)
+        #print("here sub" +subject)
         msg = request.form['message']
         body = subject +"\n "+  "Email: \n " + email + "\n" + "Text: \n" +msg
 
