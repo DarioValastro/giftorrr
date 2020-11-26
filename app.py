@@ -215,12 +215,13 @@ def contact_Us():
     count = 0
     return render_template('contactUs.html', language='eng')
 
+
 @app.route('/send_message_eng', methods=["POST", "GET"])
 def send_message_eng():
     smtplibObj = smtplib.SMTP("smtp.gmail.com", 587)
     smtplibObj.ehlo()
     smtplibObj.starttls()
-    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", os.environ['Pass_GMAIL'])
+    smtplibObj.login("ISProject.GIFTOR2020@gmail.com", 'sdpiihfqogybvuyh')
 
     if request.method == "POST":
         email = request.form['email']
