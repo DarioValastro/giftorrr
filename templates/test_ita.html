@@ -41,7 +41,7 @@
         <hr class="my-4">
         <ul class="list-inline" style="opacity: initial">
             {% for a in answers %}
-          <li class="list-inline-item">{{ a.getTextAnswerIta() }}
+          <li class="list-inline-item" style="padding-left: 1%;padding-right: 1%;">{{ a.getTextAnswerIta() }}
               <input type="radio" id="{{ a.getIdAnswer() }}" value="{{ a.getIdAnswer() }}" name ="answer" required> </li>
            {% endfor %}
         </ul>

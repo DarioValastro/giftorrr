@@ -39,7 +39,8 @@
 
                     </div>
                     <div class="col-sm" style="align-self: center">
-                       <br> <p>Puoi vedere il regalo da questo <br><a href="{{ rank[0].getUrl() }}" target="_blank">link </a></p>
+                       <br> <p>Puoi vedere il regalo da questo <br><a href="{{ rank[0].getUrl() }}" target="_blank" style="text-decoration: underline;
+                text-decoration-color: darkred;"><div class="link">Link</div></a></p>
                     </div>
                     <div class="col-sm" style="align-self: center;">
                       <br><img src="{{ rank[0].getPic() }}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
@@ -87,7 +88,8 @@
 
                         </div>
                         <div class="col-sm" style="align-self: center">
-                           <br>  <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                            <br>  <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[1].getUrl() }}" target="_blank" style="text-decoration: underline;
+                text-decoration-color: darkred;"><div class="link">Link</div></a></p>
                         </div>
                         <div class="col-sm" style="align-self: center;">
                           <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
@@ -101,13 +103,15 @@
 
                         </div>
                         <div class="col-sm" style="align-self: center">
-                           <br>  <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                           <br>  <p>Puoi vedere il regalo da questo  <br><a href="{{ rank[-1].getUrl() }}" target="_blank" style="text-decoration: underline;
+                text-decoration-color: darkred;"><div class="link">Link</div></a></p>
                         </div>
                         <div class="col-sm" style="align-self: center;">
                           <br>  <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
                         </div>
                       </div>
                   </div>
+                  <a href="{{ url_for('home') }}"  role="button" class="btn btn-danger" style="width: 50%"> Ritorna all home</a>
               </div>
 
 

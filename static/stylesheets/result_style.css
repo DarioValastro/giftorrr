@@ -52,5 +52,11 @@
              opacity: 1;
             }
 
+            .link {
+                text-decoration: underline;
+                text-decoration-color: red;
+
+            }
+
 
 }

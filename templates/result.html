@@ -5,19 +5,6 @@
 {% include 'module/social_bar.html' %}
 <link href="/static/stylesheets/result_style.css" type="text/css" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-    function showPositiveFeedback() {
-      document.getElementById("myDivPositiveFeedback").style.display = "block";
-      document.getElementById("myDivNegativeFeedback").style.display = "none";
-      document.getElementById("myDivButtonFeedBack").style.display = "none";
-      }
-
-      function showNegativeFeedback() {
-      document.getElementById("myDivNegativeFeedback").style.display = "block";
-      document.getElementById("myDivPositiveFeedback").style.display = "none";
-      document.getElementById("myDivButtonFeedBack").style.display = "none";
-      }
-    </script>
 
 
 <body class="text-center" style="background-image: url(/static/img/sfondo_home_prova2.jpg);
@@ -40,7 +27,8 @@
 
                     </div>
                     <div class="col-sm" style="align-self: center">
-                        <p>You can see this gift from this  <br><a href="{{ rank[0].getUrl() }}" target="_blank">link</a></p>
+                        <p>You can see this gift from this  <br><a href="{{ rank[0].getUrl() }}" target="_blank" style="text-decoration: underline;
+                text-decoration-color: darkred;"><div class="link">Link</div></a></p>
                     </div>
                     <div class="col-sm" style="align-self: center;">
                       <img src="{{ rank[0].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
@@ -49,7 +37,10 @@
                 </div>
                 </div>
               <br><br>
+
               <!-- TODO responsiveness -->
+
+
                 <form action = "http://127.0.0.1:5000/result/{{ lastId }}" method = "post">
                         {{ formFeedback.csrf }}
                         {{ formFeedback.hidden_tag() }}
@@ -81,6 +72,7 @@
                   <br>
 
               <div id="{% if feedback_done %}{{ 'myDivVisible' }}{% else %}{{ 'myDivTransparent' }}{% endif %}">
+
                 <h2>&#128522; Other wonderful gifts:</h2>
                   <div class="container">
                       <div class="row">
@@ -89,7 +81,8 @@
 
                         </div>
                         <div class="col-sm" style="align-self: center">
-                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[1].getUrl() }}" target="_blank">link</a></p>
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[1].getUrl() }}" target="_blank" style="text-decoration: underline;
+                text-decoration-color: darkred;" ><div class="link">Link</div></a></p>
                         </div>
                         <div class="col-sm" style="align-self: center;">
                           <br> <img src="{{ rank[1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
@@ -103,13 +96,15 @@
 
                         </div>
                         <div class="col-sm" style="align-self: center">
-                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[-1].getUrl() }}" target="_blank">link</a></p>
+                           <br>  <p>You can see this gift from this  <br><a href="{{ rank[-1].getUrl() }}" target="_blank" style="text-decoration: underline;
+                text-decoration-color: darkred;"><div class="link">Link</div></a></p>
                         </div>
                         <div class="col-sm" style="align-self: center;">
                           <br>  <img src="{{ rank[-1].getPic()}}" class="img-fluid" style="margin-left: 30px; border-radius: 50%; max-width: 100%;height: auto;" alt="Responsive image">
                         </div>
                       </div>
                   </div>
+                  <a href="{{ url_for('home') }}"  role="button" class="btn btn-danger" style="width: 50%"> Return to home</a>
               </div>
     </main>
 
