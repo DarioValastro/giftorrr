@@ -215,7 +215,6 @@ def finishQuestions(count):
         return False
 
 
-# TODO
 def sendPathToDB(path, rank):
     countQuiz = Questionnaires.query.count()
     countQuiz = countQuiz + 1
