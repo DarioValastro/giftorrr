@@ -17,7 +17,8 @@ class Game:
     def getQuestions(self):
         return self.questions
 
-    def refreshGame(self):
+    def refreshGame(self,gifts):
+        self.gifts=gifts
         for g in self.gifts:
             self.giftsScore[g.getIdGift()] = 0
 
@@ -58,7 +59,6 @@ class Game:
                 if g.getPriceLL() <= 25 and g.getPriceUL() > 10:
                     tempGifts.append(g)
                     tempGiftsScore[g.idGift] = self.giftsScore[g.idGift]
-
             self.gifts = tempGifts
             self.giftsScore = tempGiftsScore
         elif int(idAnswer) == 12:  # 25-50€

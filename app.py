@@ -283,14 +283,14 @@ game.initializeGiftsScore()
 # ROUTE
 @app.route('/')
 def home():
-    game.refreshGame()
+    game.refreshGame(getGiftsFromDB())
     count = 0
     return render_template('home.html', language='eng')
 
 
 @app.route('/contactUs/')
 def contact_Us():
-    game.refreshGame()
+    game.refreshGame(getGiftsFromDB())
     count = 0
     return render_template('contactUs.html', language='eng')
 
@@ -321,7 +321,7 @@ def send_message_eng():
 
 @app.route('/aboutUs/')
 def about_Us():
-    game.refreshGame()
+    game.refreshGame(getGiftsFromDB())
     count = 0
     return render_template('aboutUs.html', language='eng')
 
@@ -339,14 +339,14 @@ def internal_server_error(e):
 # ROUTE ita_page
 @app.route('/ita')
 def home_ita():
-    game.refreshGame()
+    game.refreshGame(getGiftsFromDB())
     count = 0
     return render_template('home_ita.html', language='ita')
 
 
 @app.route('/contactUs_ita/')
 def contact_Us_ita():
-    game.refreshGame()
+    game.refreshGame(getGiftsFromDB())
     count = 0
     return render_template('contactUs_ita.html', language='ita')
 
@@ -377,7 +377,7 @@ def send_message():
 
 @app.route('/aboutUs_ita/')
 def about_Us_ita():
-    game.refreshGame()
+    game.refreshGame(getGiftsFromDB())
     count = 0
     return render_template('aboutUs_ita.html', language='ita')
 
