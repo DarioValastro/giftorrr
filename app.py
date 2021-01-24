@@ -10,6 +10,7 @@ from model.Gift import Gift
 from model.Question import Question
 from model.Score import Scoree
 from flask_mail import Message, Mail
+from model.form import *
 
 # CONFIG APP
 app = Flask(__name__)
@@ -32,127 +33,6 @@ app.config[
     'SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # per evitare l'errore esplicitato in questo link:
 # https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications
 db = SQLAlchemy(app)  # create DB
-
-
-# FORMS English
-class AnswerForm3(FlaskForm):
-    submit = SubmitField('CONTINUE')
-    answer = RadioField('Answer', choices=['1', '2', '3'],
-                        validators=[DataRequired()])
-
-
-class AnswerForm5(FlaskForm):
-    submit = SubmitField('CONTINUE')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5'],
-                        validators=[DataRequired()])
-
-
-class FormFeedback(FlaskForm):
-    finish = SubmitField('Send feedback and discover a surprise')
-    feedback = RadioField('Feedback', choices=['1', '2', '3', '4', '5'],
-                          validators=[DataRequired()])
-
-
-class AnswerForm6(FlaskForm):
-    submit = SubmitField('CONTINUE')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6'],
-                        validators=[DataRequired()])
-
-
-class AnswerForm9(FlaskForm):
-    submit = SubmitField('CONTINUE')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                        validators=[DataRequired()])
-
-
-class AnswerForm10(FlaskForm):
-    submit = SubmitField('CONTINUE')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                        validators=[DataRequired()])
-
-
-class AnswerForm11(FlaskForm):
-    submit = SubmitField('CONTINUE')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
-                        validators=[DataRequired()])
-
-
-def getFormBasedOnLength(length):
-    if length == 3:
-        return AnswerForm3(request.form)
-    elif length == 5:
-        return AnswerForm5(request.form)
-    elif length == 6:
-        return AnswerForm6(request.form)
-    elif length == 9:
-        return AnswerForm9(request.form)
-    elif length == 10:
-        return AnswerForm10(request.form)
-    elif length == 11:
-        return AnswerForm11(request.form)
-
-
-################################################################################################
-
-# FORMS Ita
-class AnswerFormIta3(FlaskForm):
-    submit = SubmitField('CONTINUA')
-    answer = RadioField('Answer', choices=['1', '2', '3'],
-                        validators=[DataRequired()])
-
-
-class AnswerFormIta5(FlaskForm):
-    submit = SubmitField('CONTINUA')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5'],
-                        validators=[DataRequired()])
-
-
-class FormFeedbackIta(FlaskForm):
-    finish = SubmitField('Invia la valutazione e scopri una sorpresa')
-    feedback = RadioField('Feedback', choices=['1', '2', '3', '4', '5'],
-                          validators=[DataRequired()])
-
-
-class AnswerFormIta6(FlaskForm):
-    submit = SubmitField('CONTINUA')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6'],
-                        validators=[DataRequired()])
-
-
-class AnswerFormIta9(FlaskForm):
-    submit = SubmitField('CONTINUA')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                        validators=[DataRequired()])
-
-
-class AnswerFormIta10(FlaskForm):
-    submit = SubmitField('CONTINUA')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                        validators=[DataRequired()])
-
-
-class AnswerFormIta11(FlaskForm):
-    submit = SubmitField('CONTINUA')
-    answer = RadioField('Answer', choices=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
-                        validators=[DataRequired()])
-
-
-def getFormBasedOnLengthIta(length):
-    if length == 3:
-        return AnswerFormIta3(request.form)
-    elif length == 5:
-        return AnswerFormIta5(request.form)
-    elif length == 6:
-        return AnswerFormIta6(request.form)
-    elif length == 9:
-        return AnswerFormIta9(request.form)
-    elif length == 10:
-        return AnswerFormIta10(request.form)
-    elif length == 11:
-        return AnswerFormIta11(request.form)
-
-
-##############################
 
 # CLASS DB
 class Questions(db.Model):
@@ -197,7 +77,39 @@ class Score(db.Model):
 ###########################################################################################################
 
 
-# FUNCTIONS
+# TOP LEVEL FUNCTIONS
+
+# TOP LEVEL FUNCTIONS
+
+def getFormBasedOnLengthIta(length):
+    if length == 3:
+        return AnswerFormIta3(request.form)
+    elif length == 5:
+        return AnswerFormIta5(request.form)
+    elif length == 6:
+        return AnswerFormIta6(request.form)
+    elif length == 9:
+        return AnswerFormIta9(request.form)
+    elif length == 10:
+        return AnswerFormIta10(request.form)
+    elif length == 11:
+        return AnswerFormIta11(request.form)
+
+
+def getFormBasedOnLength(length):
+    if length == 3:
+        return AnswerForm3(request.form)
+    elif length == 5:
+        return AnswerForm5(request.form)
+    elif length == 6:
+        return AnswerForm6(request.form)
+    elif length == 9:
+        return AnswerForm9(request.form)
+    elif length == 10:
+        return AnswerForm10(request.form)
+    elif length == 11:
+        return AnswerForm11(request.form)
+
 
 def getQuestionsFromDB():
     questions = Questions.query.distinct()
@@ -221,7 +133,6 @@ def sendPathToDB(path, rank):
     rankGifts = ''
     for r in rank:
         rankGifts = rankGifts + "--" + r.getName() + "[" + str(r.getIdGift()) + "]"
-    # print("rank gifts is     ", rankGifts)
     quiz = Questionnaires(idQuiz=countQuiz, pathQuiz=path, rankGifts=rankGifts, feedback=0)
     db.session.add(quiz)
     db.session.commit()
@@ -265,25 +176,25 @@ def getPointsFromDB(idAnswer, idQuestion):
     return resScore
 
 
+
 # CONFIG GAME
 count = 0
 path = 'Start'
 
 # Questions
-questions = getQuestionsFromDB()
-gifts = getGiftsFromDB()
+questions = getQuestionsFromDB() # Get the 8 questions from DB
+gifts = getGiftsFromDB() # Get all gifts from DB
 
-game = Game(questions, gifts)
-game.initializeGiftsScore()
-
+game = Game(questions, gifts) # Create the game object
+game.initializeGiftsScore() # Set started values of DB
 
 ######
 
-
 # ROUTE
 @app.route('/')
+@app.route('/home')
 def home():
-    game.refreshGame(getGiftsFromDB())
+    game.refreshGame(getGiftsFromDB()) # Refresh Game any time to
     count = 0
     return render_template('home.html', language='eng')
 
