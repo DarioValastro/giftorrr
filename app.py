@@ -1,4 +1,5 @@
 import urllib, smtplib, os
+import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm  # FORM
@@ -12,6 +13,7 @@ from model.Score import Scoree
 from flask_mail import Message, Mail
 from model.form import *
 
+
 # CONFIG APP
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
@@ -19,20 +21,29 @@ app.debug = True
 mail = Mail(app)
 
 # CONFIG DB
+
+
+"""
 params = urllib.parse.quote_plus(
     'Driver={SQL Server};Server=tcp:giftor.database.windows.net,'
     '1433;Database=giftor;Uid=amministratore;Pwd=' + os.environ['Pass_db'] + ';Encrypt=yes;')
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%s" % params
+"""
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:' +os.environ['pass_db']+'@localhost/Giftor'
+
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:9RLxFv1t3IVbRoJL@localhost/giftor'  # set the path
 # for the database, ho installato dal terminal pymysql per farlo funzionare
+
 app.config[
     'SQLALCHEMY_COMMIT_ON_TEARDOWN'] = False  # set to True to enable automatic commits of database changes at the end
 # of each request.
 app.config[
     'SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # per evitare l'errore esplicitato in questo link:
 # https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications
+
 db = SQLAlchemy(app)  # create DB
+
 
 # CLASS DB
 class Questions(db.Model):
