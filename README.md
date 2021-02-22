@@ -10,8 +10,15 @@ Following the next steps to run the code of Giftor on your device
 
 * Install all required modules given in the file requirements.txt through Python Terminal thank to pip package installer 
 
-* Add the following environment variables:
-	 * Pass_gmail=sdpiihfqogybvuyh
-	 * Pass_db=9RLxFv1t3IVbRoJL
+* Log the giftor.sql in MySQL Workbench or something like that to copy the DB in your PC and set name of DB, password and user's name 
 
-You could try the prototype of Giftor web-application through this link: https://giftorrel.azurewebsites.net/ 
+* Modify, in the app.py file, the line 32
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:' +os.environ['pass_db']+'@localhost/Giftor'
+The root is the name of the user for DB
++ "Password of DB" set by the user 
+/name_of_DB
+
+* Modify the os.environ --> edit configurations and modify the password for DB and for Gmail 
+	The Gmail's password is the Google password's app set for the device by the Gmail security services
+
+
