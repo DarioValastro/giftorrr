@@ -1,6 +1,6 @@
 # Giftor
 
-## Intallation Procedures
+## Installation Procedures
 
 Following the next steps to run the code of Giftor on your device
 
