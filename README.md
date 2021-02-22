@@ -18,7 +18,7 @@ The root is the name of the user for DB
 + "Password of DB" set by the user 
 /name_of_DB
 
-* Modify the os.environ --> edit configurations and modify the password for DB and for Gmail 
-	The Gmail's password is the Google password's app set for the device by the Gmail security services
+* Modify the os.environ --> edit configurations and modify the password for DB. 
+	The Gmail's password is the Google password's app set for the device by the Gmail security services and it is not to be modify
 
 
